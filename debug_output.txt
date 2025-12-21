@@ -1,0 +1,12 @@
+[33mmanually calling optimizeDeps is deprecated. This is done automatically and does not need to be called manually.[39m
+[2m3:57:31 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Forced re-optimization of dependencies
+[31merror when optimizing deps:
+Error: The following dependencies are imported but could not be resolved:
+
+  [36mlucide-react[31m [37m[2m(imported by D:/Projects/IAM/IAM- Frontend/src/components/Modal.jsx)[22m[31m
+
+Are they installed?
+    at file:///D:/Projects/IAM/IAM-%20Frontend/node_modules/vite/dist/node/chunks/config.js:31902:33
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async optimizeDeps (file:///D:/Projects/IAM/IAM-%20Frontend/node_modules/vite/dist/node/chunks/config.js:31826:15)
+    at async CAC.<anonymous> (file:///D:/Projects/IAM/IAM-%20Frontend/node_modules/vite/dist/node/cli.js:652:3)[39m
