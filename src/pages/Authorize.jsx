@@ -19,7 +19,7 @@ const Authorize = () => {
 
     const authorizeUser = async (consentGiven = false) => {
         try {
-            const response = await axios.post('http://localhost:8000/oauth/authorize', {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/oauth/authorize`, {
                 clientId,
                 redirectUri,
                 consentGiven
@@ -55,7 +55,7 @@ const Authorize = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('http://localhost:8000/api/auth/logout', {}, { withCredentials: true });
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`, {}, { withCredentials: true });
             // Refresh logic to restart flow
             navigate(`/user-login?clientId=${clientId}&redirectUri=${redirectUri}`);
         } catch (e) {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 import Input from '../components/Input';
 import Button from '../components/Button';
-import axios from 'axios';
 
 const UserLogin = () => {
     const [searchParams] = useSearchParams();
@@ -21,14 +21,10 @@ const UserLogin = () => {
         setError('');
 
         try {
-            await axios.post('http://localhost:8000/api/auth/login', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
                 email,
                 password,
-                clientId: clientId || 'direct-login' // Backend needs some ID, or we relax backend check?
-                // Wait, backend requires clientId for permissions.
-                // If direct login, we might not get permissions in token, which is fine for /me endpoint.
-                // But backend throws "Client ID is required".
-                // We need to fix backend or provide a dummy self-service ID.
+                clientId: clientId || 'direct-login'
             }, { withCredentials: true });
 
             if (clientId && redirectUri) {
@@ -45,11 +41,7 @@ const UserLogin = () => {
 
     if ((!clientId || !redirectUri) && !window.location.pathname.includes('login')) {
         // Allow rendering if just /user-login (for profile access)
-        // But wait, the below return hides the form.
-        // We should Remove this block or adapt it.
     }
-
-    // Instead of early return, we adjust handleLogin and links.
 
     return (
         <>
