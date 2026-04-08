@@ -532,7 +532,7 @@ const AppDetails = () => {
                             <div style={{ background: '#1e293b', padding: '1rem', borderRadius: 'var(--radius)', overflowX: 'auto' }}>
                                 <pre style={{ margin: 0, color: '#e2e8f0', fontFamily: 'monospace', fontSize: '0.9rem' }}>
                                     {`// NodeJS Example (Express)
-const response = await axios.post('http://localhost:8000/api/auth/oauth/token', {
+const response = await axios.post('http://localhost:8001/oauth/token', {
     code: "CODE_FROM_URL_QUERY",
     clientId: "${app.clientId}",
     clientSecret: "${app.clientSecret}"

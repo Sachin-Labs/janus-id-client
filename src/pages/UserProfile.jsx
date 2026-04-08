@@ -26,21 +26,15 @@ const UserProfile = () => {
 
     const fetchProfile = async () => {
         try {
-            const token = localStorage.getItem('token') || document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1"); // Basic cookie read or use context
-            // Note: axios interceptor might handle token, but ensuring we have it.
-            // Assuming AuthContext or global axios setup handles headers, but let's be safe.
-            const res = await axios.get('http://localhost:8000/api/users/me', {
-                withCredentials: true
-            });
+            // Note: api interceptor handles token from localStorage
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me`, { withCredentials: true });
             setUser(res.data.user);
             setApps(res.data.apps);
             setFirstName(res.data.user.firstName);
             setLastName(res.data.user.lastName || '');
         } catch (err) {
             setError("Failed to load profile. Please login again.");
-            if (err.response?.status === 401) {
-                // logout(); // Auto logout?
-            }
+            // 401 handled by interceptor (logout)
         } finally {
             setLoading(false);
         }
@@ -51,7 +45,7 @@ const UserProfile = () => {
         setMessage('');
         setError('');
         try {
-            await axios.put('http://localhost:8000/api/users/me', { firstName, lastName }, { withCredentials: true });
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/users/me`, { firstName, lastName }, { withCredentials: true });
             setMessage("Profile updated successfully!");
         } catch (err) {
             setError(err.response?.data?.error || "Update failed");
@@ -63,7 +57,7 @@ const UserProfile = () => {
         setMessage('');
         setError('');
         try {
-            await axios.put('http://localhost:8000/api/users/change-password', {
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/users/change-password`, {
                 currentPassword,
                 newPassword
             }, { withCredentials: true });
