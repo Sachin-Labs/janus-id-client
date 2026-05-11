@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -26,7 +26,7 @@ const UserSignup = () => {
         try {
             // We can reuse the same endpoint we use for admin signup or forgot password
             // Let's use the one that requestOtp maps to: /api/auth/otp-request (from auth.js)
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/otp-request`, { email });
+            await api.post("/auth/otp-request", { email });
             setStep(2);
         } catch (err) {
             setError(err.response?.data?.message || err.response?.data || 'Failed to send OTP');
@@ -45,7 +45,7 @@ const UserSignup = () => {
         const lastName = nameParts.slice(1).join(' ');
 
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+            await api.post("/auth/register", {
                 firstName,
                 lastName: lastName || undefined,
                 email,

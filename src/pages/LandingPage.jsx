@@ -7,8 +7,11 @@ const LandingPage = () => {
         <div style={{ minHeight: '100vh', background: '#0f1115', color: 'white', display: 'flex', flexDirection: 'column' }}>
             {/* Navbar */}
             <nav style={{ padding: '1.5rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #1f2937' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(to right, #6366f1, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                    IAM Core
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <img src="/logo.png" alt="Janus ID Logo" style={{ width: '40px', height: '40px', borderRadius: '8px' }} />
+                    <div style={{ fontSize: '1.5rem', fontWeight: 'bold', background: 'linear-gradient(to right, #6366f1, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        Janus ID
+                    </div>
                 </div>
                 <div style={{ display: 'flex', gap: '1rem' }}>
                     <Link to="/login">
@@ -60,7 +63,7 @@ const LandingPage = () => {
 
             {/* Footer */}
             <footer style={{ padding: '2rem', textAlign: 'center', color: '#4b5563', borderTop: '1px solid #1f2937' }}>
-                &copy; 2024 IAM Core. Secure by Design.
+                &copy; 2024 Janus ID. Secure by Design.
             </footer>
         </div>
     );

@@ -13,8 +13,9 @@ const AuthLayout = () => {
             position: 'relative'
         }}>
             {/* Bottom Left Label */}
-            <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', color: 'rgba(255,255,255,0.3)', fontWeight: 500 }}>
-                IAM Core
+            <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'rgba(255,255,255,0.3)', fontWeight: 500 }}>
+                <img src="/logo.png" alt="" style={{ width: '24px', height: '24px', borderRadius: '4px', opacity: 0.5, filter: 'grayscale(100%)' }} />
+                Janus ID
             </div>
 
             <div className="glass-card fade-in" style={{ width: '100%', maxWidth: '400px', padding: '2rem' }}>

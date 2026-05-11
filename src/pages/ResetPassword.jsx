@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -23,7 +23,7 @@ const ResetPassword = () => {
         setMessage('');
 
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/reset-password`, {
+            await api.post("/auth/reset-password", {
                 email,
                 otp,
                 newPassword

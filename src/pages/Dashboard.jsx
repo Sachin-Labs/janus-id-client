@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Server } from 'lucide-react';
+import { Plus, Server, Copy, Check, AlertCircle } from 'lucide-react';
 import Button from '../components/Button';
 import Modal from '../components/Modal';
 import Input from '../components/Input';
-import api from '../services/api'; // We'll need to add app-related API calls here or new service
+import api from '../services/api';
 
 const Dashboard = () => {
     const [apps, setApps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const [createdApp, setCreatedApp] = useState(null);
+    const [copied, setCopied] = useState(false);
+
     const [newApp, setNewApp] = useState({ name: '', description: '' });
     const navigate = useNavigate();
 
@@ -17,22 +21,8 @@ const Dashboard = () => {
         fetchApps();
     }, []);
 
-    // API Call Placeholder - We need to implement this in backend or use what we have
-    // Wait, backend doesn't have "get all apps" for user? 
-    // AdminController has `createApplication`. We likely need `getApplications`.
-    // Let's assume we fetch generic or we need to add that endpoint.
-    // For now, I'll mock it or try to fetch.
-    // Checking adminController... it DOES NOT have getApplications. It only has create.
-    // I need to add that to backend!
-
     const fetchApps = async () => {
-        // Temporary mock until backend implementation
-        // setApps([{_id: '1', name: 'Test App', description: 'Demo App'}]);
-        // setLoading(false);
-
-        // Real implementation attempt:
         try {
-            // We need to implement this endpoint in backend first!
             const { data } = await api.get('/admin/applications');
             setApps(data.applications);
         } catch (e) {
@@ -45,13 +35,24 @@ const Dashboard = () => {
     const handleCreateApp = async (e) => {
         e.preventDefault();
         try {
-            await api.post('/admin/applications', newApp);
+            const { data } = await api.post('/admin/applications', newApp);
+            setCreatedApp({
+                ...data.application,
+                plainSecret: data.plainSecret
+            });
             setIsModalOpen(false);
+            setIsSuccessModalOpen(true);
             setNewApp({ name: '', description: '' });
-            fetchApps(); // Refresh list
+            fetchApps();
         } catch (error) {
             alert("Failed to create app");
         }
+    };
+
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     };
 
     return (
@@ -79,10 +80,8 @@ const Dashboard = () => {
                         <div
                             key={app._id}
                             className="glass-card"
-                            style={{ pading: '1.5rem', cursor: 'pointer', transition: 'var(--transition)' }}
+                            style={{ cursor: 'pointer', transition: 'var(--transition)' }}
                             onClick={() => navigate(`/admin/apps/${app._id}`)}
-                            onMouseOver={(e) => e.currentTarget.style.borderColor = 'var(--primary)'}
-                            onMouseOut={(e) => e.currentTarget.style.borderColor = 'rgba(48, 54, 61, 0.5)'}
                         >
                             <div style={{ padding: '1.5rem' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
@@ -105,6 +104,7 @@ const Dashboard = () => {
                 </div>
             )}
 
+            {/* Create Modal */}
             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Create Application">
                 <form onSubmit={handleCreateApp}>
                     <Input
@@ -125,6 +125,44 @@ const Dashboard = () => {
                         <Button type="submit">Create Application</Button>
                     </div>
                 </form>
+            </Modal>
+
+            {/* Success Modal - SHOW ONCE PATTERN */}
+            <Modal isOpen={isSuccessModalOpen} onClose={() => setIsSuccessModalOpen(false)} title="Application Created Successfully">
+                <div style={{ padding: '0.5rem 0' }}>
+                    <div style={{ background: 'rgba(234, 179, 8, 0.1)', border: '1px solid rgba(234, 179, 8, 0.2)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', display: 'flex', gap: '0.75rem' }}>
+                        <AlertCircle style={{ color: '#eab308', flexShrink: 0 }} size={20} />
+                        <p style={{ fontSize: '0.85rem', color: '#eab308', margin: 0 }}>
+                            <strong>Security Warning:</strong> This is the only time we will show your Client Secret. Please copy it and store it securely. We only store the hashed version in our database.
+                        </p>
+                    </div>
+
+                    <div style={{ marginBottom: '1rem' }}>
+                        <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.4rem', display: 'block' }}>Client ID</label>
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            <div style={{ flex: 1, background: 'var(--bg-input)', padding: '0.75rem', borderRadius: '6px', fontSize: '0.9rem', fontFamily: 'monospace', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                {createdApp?.clientId}
+                            </div>
+                            <button onClick={() => copyToClipboard(createdApp?.clientId)} style={{ background: 'var(--bg-input)', border: 'none', color: 'var(--text-muted)', padding: '0.75rem', borderRadius: '6px', cursor: 'pointer' }}>
+                                <Copy size={16} />
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style={{ marginBottom: '2rem' }}>
+                        <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.4rem', display: 'block' }}>Client Secret</label>
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            <div style={{ flex: 1, background: 'var(--bg-input)', padding: '0.75rem', borderRadius: '6px', fontSize: '0.9rem', fontFamily: 'monospace', color: 'var(--primary)', fontWeight: 'bold', wordBreak: 'break-all' }}>
+                                {createdApp?.plainSecret}
+                            </div>
+                            <button onClick={() => copyToClipboard(createdApp?.plainSecret)} style={{ background: 'var(--bg-input)', border: 'none', color: 'var(--text-muted)', padding: '0.75rem', borderRadius: '6px', cursor: 'pointer' }}>
+                                {copied ? <Check size={16} style={{ color: '#10b981' }} /> : <Copy size={16} />}
+                            </button>
+                        </div>
+                    </div>
+
+                    <Button onClick={() => setIsSuccessModalOpen(false)}>I have saved the secret</Button>
+                </div>
             </Modal>
         </div>
     );

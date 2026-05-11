@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -19,7 +19,7 @@ const ForgotPassword = () => {
         setMessage('');
 
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, { email });
+            await api.post("/auth/forgot-password", { email });
             setMessage(`OTP sent to ${email} (if registered).`);
             setTimeout(() => {
                 navigate(`/reset-password?email=${encodeURIComponent(email)}&${searchParams.toString()}`);

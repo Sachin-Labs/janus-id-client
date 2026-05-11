@@ -1,51 +1,67 @@
 import React, { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 
 const Authorize = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    const [appInfo, setAppInfo] = useState(null);
+    const [loading, setLoading] = useState(true);
     const clientId = searchParams.get('clientId');
     const redirectUri = searchParams.get('redirectUri');
+    const codeChallenge = searchParams.get('codeChallenge');
+    const codeChallengeMethod = searchParams.get('codeChallengeMethod');
 
     const [consentRequired, setConsentRequired] = React.useState(false);
     const [consentData, setConsentData] = React.useState(null);
 
     useEffect(() => {
-        if (!clientId || !redirectUri) return;
+        if (clientId) {
+            checkApp();
+        }
+    }, [clientId]);
 
-        authorizeUser();
-    }, [clientId, redirectUri, navigate]);
-
-    const authorizeUser = async (consentGiven = false) => {
+    const checkApp = async () => {
         try {
-            const response = await axios.post(`${import.meta.env.VITE_API_URL}/oauth/authorize`, {
+            // Check if app exists and if consent is needed
+            const { data } = await api.post("/auth/authorize", {
                 clientId,
                 redirectUri,
-                consentGiven
-            }, { withCredentials: true });
+                codeChallenge,
+                codeChallengeMethod
+            });
 
-            if (response.data.requiresConsent) {
-                setConsentRequired(true);
-                setConsentData(response.data);
-                return;
-            }
-
-            const { code, redirectUri: callbackUrl } = response.data;
-            window.location.href = `${callbackUrl}?code=${code}`;
-
-        } catch (err) {
-            if (err.response && err.response.status === 401) {
-                navigate(`/user-login?clientId=${clientId}&redirectUri=${redirectUri}`);
+            if (data.code) {
+                // First Party App - Auto Redirect
+                window.location.href = `${redirectUri}?code=${data.code}`;
             } else {
-                console.error("Authorization Error:", err);
-                alert("Authorization failed: " + (err.response?.data || err.message));
+                setAppInfo(data);
+                setConsentRequired(data.requiresConsent);
+                setConsentData(data);
             }
+        } catch (e) {
+            console.error(e);
+            if (e.response && e.response.status === 401) {
+                navigate(`/user-login?clientId=${clientId}&redirectUri=${redirectUri}`);
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleAllow = () => {
-        authorizeUser(true);
+    const handleAllow = async () => {
+        try {
+            const { data } = await api.post("/auth/authorize", {
+                clientId,
+                redirectUri,
+                consentGiven: true,
+                codeChallenge,
+                codeChallengeMethod
+            });
+            window.location.href = `${redirectUri}?code=${data.code}`;
+        } catch (e) {
+            alert("Authorization failed");
+        }
     };
 
     const handleDeny = () => {
@@ -55,7 +71,7 @@ const Authorize = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`, {}, { withCredentials: true });
+            await api.post("/auth/logout");
             // Refresh logic to restart flow
             navigate(`/user-login?clientId=${clientId}&redirectUri=${redirectUri}`);
         } catch (e) {

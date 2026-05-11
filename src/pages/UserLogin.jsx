@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
@@ -21,11 +21,11 @@ const UserLogin = () => {
         setError('');
 
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
+            await api.post("/auth/login", {
                 email,
                 password,
                 clientId: clientId || 'direct-login'
-            }, { withCredentials: true });
+            });
 
             if (clientId && redirectUri) {
                 navigate(`/authorize?clientId=${clientId}&redirectUri=${redirectUri}`);

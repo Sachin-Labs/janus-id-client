@@ -46,8 +46,8 @@ const DashboardLayout = () => {
                 flexDirection: 'column'
             }}>
                 <div style={{ marginBottom: '2.5rem', display: 'flex', alignItems: 'center' }}>
-                    <div style={{ width: '32px', height: '32px', background: 'var(--primary)', borderRadius: '8px', marginRight: '10px' }}></div>
-                    <h2 style={{ fontSize: '1.25rem' }}>IAM Core</h2>
+                    <img src="/logo.png" alt="Janus ID Logo" style={{ width: '32px', height: '32px', borderRadius: '8px', marginRight: '10px', objectFit: 'cover' }} />
+                    <h2 style={{ fontSize: '1.25rem' }}>Janus ID</h2>
                 </div>
 
                 <nav style={{ flex: 1 }}>

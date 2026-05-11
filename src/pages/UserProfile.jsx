@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
@@ -27,7 +27,7 @@ const UserProfile = () => {
     const fetchProfile = async () => {
         try {
             // Note: api interceptor handles token from localStorage
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/me`, { withCredentials: true });
+            const res = await api.get("/user/me");
             setUser(res.data.user);
             setApps(res.data.apps);
             setFirstName(res.data.user.firstName);
@@ -45,7 +45,7 @@ const UserProfile = () => {
         setMessage('');
         setError('');
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/api/users/me`, { firstName, lastName }, { withCredentials: true });
+            await api.put("/user/me", { firstName, lastName });
             setMessage("Profile updated successfully!");
         } catch (err) {
             setError(err.response?.data?.error || "Update failed");
@@ -57,10 +57,10 @@ const UserProfile = () => {
         setMessage('');
         setError('');
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/api/users/change-password`, {
+            await api.put("/user/change-password", {
                 currentPassword,
                 newPassword
-            }, { withCredentials: true });
+            });
             setMessage("Password changed successfully!");
             setCurrentPassword('');
             setNewPassword('');
