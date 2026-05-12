@@ -16,7 +16,7 @@ const AppDetails = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const [integrationFlow, setIntegrationFlow] = useState('pkce'); 
+    const [integrationFlow, setIntegrationFlow] = useState('pkce');
 
     // Modal States
     const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
@@ -270,19 +270,19 @@ const AppDetails = () => {
                     </div>
                 </div>
                 <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>{app.description}</p>
-                
+
                 <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', overflowX: 'auto', paddingBottom: '5px' }}>
                     {['info', 'roles', 'permissions', 'mapping', 'users', 'integration', 'settings'].map(tab => (
-                        <button 
-                            key={tab} 
-                            onClick={() => setActiveTab(tab)} 
-                            style={{ 
-                                background: activeTab === tab ? 'var(--primary)' : 'transparent', 
-                                border: activeTab === tab ? 'none' : '1px solid var(--border)', 
-                                color: activeTab === tab ? 'white' : 'var(--text-muted)', 
-                                padding: '8px 16px', 
-                                borderRadius: 'var(--radius)', 
-                                cursor: 'pointer', 
+                        <button
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            style={{
+                                background: activeTab === tab ? 'var(--primary)' : 'transparent',
+                                border: activeTab === tab ? 'none' : '1px solid var(--border)',
+                                color: activeTab === tab ? 'white' : 'var(--text-muted)',
+                                padding: '8px 16px',
+                                borderRadius: 'var(--radius)',
+                                cursor: 'pointer',
                                 textTransform: 'capitalize',
                                 whiteSpace: 'nowrap',
                                 transition: 'all 0.2s'
@@ -402,14 +402,14 @@ const AppDetails = () => {
                         <div style={{ borderRight: '1px solid var(--border)', paddingRight: '1.5rem' }}>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>Select a role to manage its permissions:</p>
                             {roles.map(r => (
-                                <div 
-                                    key={r._id} 
-                                    onClick={() => setSelectedMappingRole(r)} 
-                                    style={{ 
-                                        padding: '12px', 
-                                        cursor: 'pointer', 
-                                        borderRadius: 'var(--radius)', 
-                                        background: selectedMappingRole?._id === r._id ? 'rgba(99, 102, 241, 0.2)' : 'transparent', 
+                                <div
+                                    key={r._id}
+                                    onClick={() => setSelectedMappingRole(r)}
+                                    style={{
+                                        padding: '12px',
+                                        cursor: 'pointer',
+                                        borderRadius: 'var(--radius)',
+                                        background: selectedMappingRole?._id === r._id ? 'rgba(99, 102, 241, 0.2)' : 'transparent',
                                         color: selectedMappingRole?._id === r._id ? 'white' : 'var(--text-muted)',
                                         marginBottom: '0.5rem',
                                         transition: 'all 0.2s'
@@ -426,12 +426,12 @@ const AppDetails = () => {
                                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
                                         {permissions.map(p => (
                                             <label key={p._id} className="flex-center" style={{ justifyContent: 'flex-start', background: 'var(--bg-input)', padding: '12px', borderRadius: 'var(--radius)', cursor: 'pointer', border: '1px solid var(--border)' }}>
-                                                <input 
-                                                    type="checkbox" 
-                                                    style={{ marginRight: '12px', width: '18px', height: '18px' }} 
-                                                    checked={rolePermissions.includes(p._id)} 
-                                                    onChange={e => togglePermission(selectedMappingRole._id, p._id, e.target.checked)} 
-                                                /> 
+                                                <input
+                                                    type="checkbox"
+                                                    style={{ marginRight: '12px', width: '18px', height: '18px' }}
+                                                    checked={rolePermissions.includes(p._id)}
+                                                    onChange={e => togglePermission(selectedMappingRole._id, p._id, e.target.checked)}
+                                                />
                                                 <span style={{ fontSize: '0.95rem' }}>{p.name}</span>
                                             </label>
                                         ))}
@@ -456,14 +456,14 @@ const AppDetails = () => {
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Follow the Authorization Code Flow to securely authenticate users.</p>
                         </div>
                         <div style={{ display: 'flex', gap: '6px', background: 'var(--bg-input)', padding: '6px', borderRadius: '10px', border: '1px solid var(--border)' }}>
-                            <button 
-                                onClick={() => setIntegrationFlow('pkce')} 
-                                style={{ 
-                                    background: integrationFlow === 'pkce' ? 'var(--primary)' : 'transparent', 
-                                    border: 'none', 
-                                    color: integrationFlow === 'pkce' ? 'white' : 'var(--text-muted)', 
-                                    padding: '8px 14px', 
-                                    borderRadius: '8px', 
+                            <button
+                                onClick={() => setIntegrationFlow('pkce')}
+                                style={{
+                                    background: integrationFlow === 'pkce' ? 'var(--primary)' : 'transparent',
+                                    border: 'none',
+                                    color: integrationFlow === 'pkce' ? 'white' : 'var(--text-muted)',
+                                    padding: '8px 14px',
+                                    borderRadius: '8px',
                                     cursor: 'pointer',
                                     fontSize: '0.85rem',
                                     fontWeight: 500,
@@ -474,14 +474,14 @@ const AppDetails = () => {
                             >
                                 <Globe size={16} /> Frontend (PKCE)
                             </button>
-                            <button 
-                                onClick={() => setIntegrationFlow('standard')} 
-                                style={{ 
-                                    background: integrationFlow === 'standard' ? 'var(--primary)' : 'transparent', 
-                                    border: 'none', 
-                                    color: integrationFlow === 'standard' ? 'white' : 'var(--text-muted)', 
-                                    padding: '8px 14px', 
-                                    borderRadius: '8px', 
+                            <button
+                                onClick={() => setIntegrationFlow('standard')}
+                                style={{
+                                    background: integrationFlow === 'standard' ? 'var(--primary)' : 'transparent',
+                                    border: 'none',
+                                    color: integrationFlow === 'standard' ? 'white' : 'var(--text-muted)',
+                                    padding: '8px 14px',
+                                    borderRadius: '8px',
                                     cursor: 'pointer',
                                     fontSize: '0.85rem',
                                     fontWeight: 500,
@@ -516,7 +516,7 @@ const AppDetails = () => {
                                 <h4 style={{ marginBottom: '0.75rem' }}>2. Exchange Code for Token</h4>
                                 <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
                                     <pre style={{ margin: 0, color: '#94a3b8', fontSize: '0.85rem', lineHeight: '1.6' }}>
-{`// No clientSecret required for PKCE
+                                        {`// No clientSecret required for PKCE
 const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
     code: 'AUTH_CODE_FROM_URL',
     clientId: '${app.clientId}',
@@ -547,7 +547,7 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
                                 <h4 style={{ marginBottom: '0.75rem' }}>2. Exchange (Server-Side)</h4>
                                 <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
                                     <pre style={{ margin: 0, color: '#94a3b8', fontSize: '0.85rem', lineHeight: '1.6' }}>
-{`// Requires clientSecret (Keep this on your server!)
+                                        {`// Requires clientSecret (Keep this on your server!)
 const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
     code: 'AUTH_CODE_FROM_URL',
     clientId: '${app.clientId}',
@@ -566,23 +566,23 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
                     <h3 style={{ marginBottom: '1.5rem' }}>Application Settings</h3>
                     <div style={{ maxWidth: '600px' }}>
                         <div style={{ marginBottom: '2rem' }}>
-                            <Input 
-                                label="Allowed Redirect URIs" 
-                                placeholder="e.g. http://localhost:3000/callback, https://app.com/auth" 
-                                value={redirectUris} 
-                                onChange={e => setRedirectUris(e.target.value)} 
+                            <Input
+                                label="Allowed Redirect URIs"
+                                placeholder="e.g. http://localhost:3000/callback, https://app.com/auth"
+                                value={redirectUris}
+                                onChange={e => setRedirectUris(e.target.value)}
                             />
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '6px' }}>Comma separated list of valid callback URLs.</p>
                         </div>
-                        
+
                         <div style={{ marginBottom: '2rem' }}>
                             <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: 'var(--bg-input)', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
-                                <input 
-                                    type="checkbox" 
-                                    style={{ width: '20px', height: '20px' }} 
-                                    checked={isFirstParty} 
-                                    onChange={e => setIsFirstParty(e.target.checked)} 
-                                /> 
+                                <input
+                                    type="checkbox"
+                                    style={{ width: '20px', height: '20px' }}
+                                    checked={isFirstParty}
+                                    onChange={e => setIsFirstParty(e.target.checked)}
+                                />
                                 <div>
                                     <span style={{ fontWeight: 600, display: 'block' }}>First Party Application</span>
                                     <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Skips the "Authorize Access" consent screen for users.</span>
@@ -599,7 +599,7 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
             )}
 
             {/* Modals Section */}
-            
+
             {/* Secret Rotation */}
             <Modal isOpen={isRotateModalOpen} onClose={() => setIsRotateModalOpen(false)} title="Rotate Client Secret">
                 <div style={{ padding: '0.5rem 0' }}>
@@ -658,7 +658,7 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '10px', maxHeight: '300px', overflowY: 'auto', padding: '5px' }}>
                         {roles.map(r => (
                             <label key={r._id} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', background: 'var(--bg-input)', borderRadius: 'var(--radius)', cursor: 'pointer', border: '1px solid var(--border)' }}>
-                                <input type="checkbox" checked={selectedUserRoles.includes(r._id)} onChange={() => toggleUserRole(r._id)} style={{ width: '18px', height: '18px' }} /> 
+                                <input type="checkbox" checked={selectedUserRoles.includes(r._id)} onChange={() => toggleUserRole(r._id)} style={{ width: '18px', height: '18px' }} />
                                 <span style={{ fontSize: '0.9rem' }}>{r.name}</span>
                             </label>
                         ))}
