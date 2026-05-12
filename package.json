@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "janus-id-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
