@@ -507,7 +507,7 @@ const AppDetails = () => {
                                 <h4 style={{ marginBottom: '0.75rem' }}>1. Authorize (Frontend Redirect)</h4>
                                 <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
                                     <code style={{ color: '#38bdf8', fontFamily: 'monospace', fontSize: '0.9rem' }}>
-                                        {`http://localhost:5173/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK&codeChallenge=HASHED_VERIFIER&codeChallengeMethod=S256`}
+                                        {`https://janusid.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK&codeChallenge=HASHED_VERIFIER&codeChallengeMethod=S256`}
                                     </code>
                                 </div>
                             </div>
@@ -538,7 +538,7 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
                                 <h4 style={{ marginBottom: '0.75rem' }}>1. Authorize (Redirect)</h4>
                                 <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
                                     <code style={{ color: '#38bdf8', fontFamily: 'monospace', fontSize: '0.9rem' }}>
-                                        {`http://localhost:5173/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK`}
+                                        {`https://janusid.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK`}
                                     </code>
                                 </div>
                             </div>
