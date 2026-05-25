@@ -1,53 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 const Authorize = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const [appInfo, setAppInfo] = useState(null);
-    const [loading, setLoading] = useState(true);
     const clientId = searchParams.get('clientId');
     const redirectUri = searchParams.get('redirectUri');
     const codeChallenge = searchParams.get('codeChallenge');
     const codeChallengeMethod = searchParams.get('codeChallengeMethod');
+    const state = searchParams.get('state');
 
     const [consentRequired, setConsentRequired] = React.useState(false);
     const [consentData, setConsentData] = React.useState(null);
 
-    useEffect(() => {
-        if (clientId) {
-            checkApp();
-        }
-    }, [clientId]);
-
-    const checkApp = async () => {
+    const checkApp = useCallback(async () => {
         try {
             // Check if app exists and if consent is needed
             const { data } = await api.post("/auth/authorize", {
                 clientId,
                 redirectUri,
                 codeChallenge,
-                codeChallengeMethod
+                codeChallengeMethod,
+                state
             });
 
             if (data.code) {
                 // First Party App - Auto Redirect
-                window.location.href = `${redirectUri}?code=${data.code}`;
+                const callbackUrl = new URL(redirectUri);
+                callbackUrl.searchParams.set('code', data.code);
+                if (data.state) callbackUrl.searchParams.set('state', data.state);
+                window.location.href = callbackUrl.toString();
             } else {
-                setAppInfo(data);
                 setConsentRequired(data.requiresConsent);
                 setConsentData(data);
             }
         } catch (e) {
             console.error(e);
             if (e.response && e.response.status === 401) {
-                navigate(`/user-login?clientId=${clientId}&redirectUri=${redirectUri}`);
+                navigate(`/user-login?${searchParams.toString()}`);
             }
-        } finally {
-            setLoading(false);
         }
-    };
+    }, [clientId, redirectUri, codeChallenge, codeChallengeMethod, state, navigate, searchParams]);
+
+    useEffect(() => {
+        if (clientId) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            checkApp();
+        }
+    }, [clientId, checkApp]);
 
     const handleAllow = async () => {
         try {
@@ -56,24 +57,31 @@ const Authorize = () => {
                 redirectUri,
                 consentGiven: true,
                 codeChallenge,
-                codeChallengeMethod
+                codeChallengeMethod,
+                state
             });
-            window.location.href = `${redirectUri}?code=${data.code}`;
-        } catch (e) {
+            const callbackUrl = new URL(redirectUri);
+            callbackUrl.searchParams.set('code', data.code);
+            if (data.state) callbackUrl.searchParams.set('state', data.state);
+            window.location.href = callbackUrl.toString();
+        } catch {
             alert("Authorization failed");
         }
     };
 
     const handleDeny = () => {
-        // Redirect back to app with error? or just show message
-        window.location.href = `${redirectUri}?error=access_denied&error_description=User denied access`;
+        const callbackUrl = new URL(redirectUri);
+        callbackUrl.searchParams.set('error', 'access_denied');
+        callbackUrl.searchParams.set('error_description', 'User denied access');
+        if (state) callbackUrl.searchParams.set('state', state);
+        window.location.href = callbackUrl.toString();
     }
 
     const handleLogout = async () => {
         try {
             await api.post("/auth/logout");
             // Refresh logic to restart flow
-            navigate(`/user-login?clientId=${clientId}&redirectUri=${redirectUri}`);
+            navigate(`/user-login?${searchParams.toString()}`);
         } catch (e) {
             console.error("Logout failed", e);
             alert("Logout failed");

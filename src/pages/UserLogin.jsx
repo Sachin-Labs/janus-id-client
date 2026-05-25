@@ -28,7 +28,7 @@ const UserLogin = () => {
             });
 
             if (clientId && redirectUri) {
-                navigate(`/authorize?clientId=${clientId}&redirectUri=${redirectUri}`);
+                navigate(`/authorize?${searchParams.toString()}`);
             } else {
                 navigate('/profile');
             }
@@ -82,7 +82,7 @@ const UserLogin = () => {
             </form>
 
             <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                Don't have an account? <Link to={`/user-register?clientId=${clientId}&redirectUri=${redirectUri}`} style={{ color: 'var(--primary)', textDecoration: 'none' }}>Sign Up</Link>
+                Don't have an account? <Link to={`/user-register?${searchParams.toString()}`} style={{ color: 'var(--primary)', textDecoration: 'none' }}>Sign Up</Link>
             </div>
         </>
     );
