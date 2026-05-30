@@ -576,6 +576,29 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
                         </div>
 
                         <div style={{ marginBottom: '2rem' }}>
+                            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, fontSize: '0.9rem' }}>Default Roles for Registered Users</label>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '10px' }}>Select which roles are automatically assigned to users who register for this application:</p>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '10px' }}>
+                                {roles.map(r => (
+                                    <label key={r._id} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', background: 'var(--bg-input)', borderRadius: 'var(--radius)', cursor: 'pointer', border: '1px solid var(--border)' }}>
+                                        <input
+                                            type="checkbox"
+                                            checked={defaultRoleIds.includes(r._id)}
+                                            onChange={() => {
+                                                setDefaultRoleIds(prev => {
+                                                    if (prev.includes(r._id)) return prev.filter(id => id !== r._id);
+                                                    return [...prev, r._id];
+                                                });
+                                            }}
+                                            style={{ width: '18px', height: '18px' }}
+                                        />
+                                        <span style={{ fontSize: '0.9rem' }}>{r.name}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div style={{ marginBottom: '2rem' }}>
                             <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', background: 'var(--bg-input)', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
                                 <input
                                     type="checkbox"
