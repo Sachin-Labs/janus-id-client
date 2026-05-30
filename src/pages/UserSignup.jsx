@@ -3,12 +3,16 @@ import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import { getOAuthState } from '../services/oauthHelper';
 
 const UserSignup = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const clientId = searchParams.get('clientId');
-    const redirectUri = searchParams.get('redirectUri');
+
+    const oauthState = getOAuthState() || {};
+    const clientId = searchParams.get('clientId') || oauthState.clientId;
+    const redirectUri = searchParams.get('redirectUri') || oauthState.redirectUri;
+    const queryStr = searchParams.toString() || new URLSearchParams(oauthState).toString();
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -54,7 +58,7 @@ const UserSignup = () => {
                 otp
             });
 
-            navigate(`/user-login?clientId=${clientId}&redirectUri=${redirectUri}`);
+            navigate(`/user-login?${queryStr}`);
         } catch (err) {
             setError(err.response?.data || 'Signup failed');
         } finally {
@@ -139,7 +143,7 @@ const UserSignup = () => {
             )}
 
             <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                Already have an account? <Link to={`/user-login?clientId=${clientId}&redirectUri=${redirectUri}`} style={{ color: 'var(--primary)', textDecoration: 'none' }}>Sign In</Link>
+                Already have an account? <Link to={`/user-login?${queryStr}`} style={{ color: 'var(--primary)', textDecoration: 'none' }}>Sign In</Link>
             </div>
         </>
     );

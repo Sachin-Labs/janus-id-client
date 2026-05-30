@@ -1,4 +1,5 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useSearchParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import AuthLayout from './layouts/AuthLayout';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './pages/Dashboard';
@@ -16,6 +17,7 @@ import LandingPage from './pages/LandingPage'; // Add import
 
 import UserProfile from './pages/UserProfile';
 import { useAuth } from './context/AuthContext';
+import { saveOAuthState } from './services/oauthHelper';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -25,6 +27,15 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function App() {
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    // If the URL has an active OAuth context (clientId and redirectUri), cache it in sessionStorage
+    if (searchParams.get('clientId') && searchParams.get('redirectUri')) {
+      saveOAuthState(searchParams);
+    }
+  }, [searchParams]);
+
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
