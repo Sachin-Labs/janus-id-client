@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
+import { getOAuthState, getOAuthQueryString } from '../services/oauthHelper';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -18,7 +19,12 @@ const Login = () => {
         setLoading(true);
         try {
             await login(email, password);
-            navigate('/admin'); // Go to dashboard
+            const oauthState = getOAuthState();
+            if (oauthState && oauthState.clientId && oauthState.redirectUri) {
+                navigate(`/authorize?${getOAuthQueryString()}`);
+            } else {
+                navigate('/admin'); // Go to dashboard
+            }
         } catch (err) {
             setError(err.response?.data?.message || err.response?.data || "Login failed");
         } finally {

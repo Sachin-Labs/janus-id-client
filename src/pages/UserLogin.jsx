@@ -3,12 +3,15 @@ import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import { getOAuthState } from '../services/oauthHelper';
 
 const UserLogin = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const clientId = searchParams.get('clientId');
-    const redirectUri = searchParams.get('redirectUri');
+
+    const oauthState = getOAuthState() || {};
+    const clientId = searchParams.get('clientId') || oauthState.clientId;
+    const redirectUri = searchParams.get('redirectUri') || oauthState.redirectUri;
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -28,7 +31,8 @@ const UserLogin = () => {
             });
 
             if (clientId && redirectUri) {
-                navigate(`/authorize?${searchParams.toString()}`);
+                const queryStr = searchParams.toString() || new URLSearchParams(oauthState).toString();
+                navigate(`/authorize?${queryStr}`);
             } else {
                 navigate('/profile');
             }

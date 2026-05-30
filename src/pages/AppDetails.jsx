@@ -27,6 +27,8 @@ const AppDetails = () => {
     const [isEditAppModalOpen, setIsEditAppModalOpen] = useState(false);
     const [isRotateModalOpen, setIsRotateModalOpen] = useState(false);
     const [isRotationSuccessOpen, setIsRotationSuccessOpen] = useState(false);
+    const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+    const [addUserEmail, setAddUserEmail] = useState('');
 
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserRoles, setSelectedUserRoles] = useState([]);
@@ -166,6 +168,19 @@ const AppDetails = () => {
             fetchUsers();
         } catch (e) {
             alert("Failed to update user roles");
+        }
+    }
+
+    const handleAddUserByEmail = async (e) => {
+        e.preventDefault();
+        try {
+            await api.post(`/admin/applications/${appId}/users`, { email: addUserEmail });
+            setIsAddUserModalOpen(false);
+            setAddUserEmail('');
+            alert("User successfully added to the application");
+            fetchUsers();
+        } catch (err) {
+            alert(err.response?.data?.error || err.response?.data || "Failed to add user");
         }
     }
 
@@ -326,7 +341,14 @@ const AppDetails = () => {
 
             {activeTab === 'users' && (
                 <div className="fade-in">
-                    <h3 style={{ marginBottom: '1rem' }}>Registered Users</h3>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                        <h3 style={{ margin: 0 }}>Registered Users</h3>
+                        <Button onClick={() => setIsAddUserModalOpen(true)} style={{ width: 'auto', padding: '8px 16px' }}>
+                            <div className="flex-center">
+                                <Plus size={18} style={{ marginRight: '8px' }} /> Add Existing User
+                            </div>
+                        </Button>
+                    </div>
                     <div style={{ display: 'grid', gap: '1rem' }}>
                         {users.map(u => (
                             <div key={u._id} className="glass-card" style={{ padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -713,6 +735,23 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
                     <Input label="Name" value={editApp.name} onChange={e => setEditApp({ ...editApp, name: e.target.value })} required />
                     <Input label="Description" value={editApp.description} onChange={e => setEditApp({ ...editApp, description: e.target.value })} required />
                     <Button type="submit">Update Application</Button>
+                </form>
+            </Modal>
+
+            <Modal isOpen={isAddUserModalOpen} onClose={() => setIsAddUserModalOpen(false)} title="Add Existing User by Email">
+                <form onSubmit={handleAddUserByEmail}>
+                    <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem', lineHeight: '1.5' }}>
+                        Enter the email address of a registered global Janus ID user to link them to this application with its default roles.
+                    </p>
+                    <Input
+                        label="User Email Address"
+                        type="email"
+                        value={addUserEmail}
+                        onChange={e => setAddUserEmail(e.target.value)}
+                        required
+                        placeholder="user@example.com"
+                    />
+                    <Button type="submit">Add User to Application</Button>
                 </form>
             </Modal>
         </div>
