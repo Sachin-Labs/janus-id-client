@@ -36,10 +36,9 @@ const Authorize = () => {
                 setConsentData(data);
             }
         } catch (e) {
-            console.error(e);
-            if (e.response && e.response.status === 401) {
-                navigate(`/user-login?${searchParams.toString()}`);
-            }
+            console.error("Authorization check failed:", e);
+            // Navigate to login on any error (such as 401 or failed token refresh resulting in 400/500)
+            navigate(`/user-login?${searchParams.toString()}`);
         }
     }, [clientId, redirectUri, codeChallenge, codeChallengeMethod, state, navigate, searchParams]);
 
@@ -80,6 +79,7 @@ const Authorize = () => {
     const handleLogout = async () => {
         try {
             await api.post("/auth/logout");
+            localStorage.removeItem("accessToken");
             // Refresh logic to restart flow
             navigate(`/user-login?${searchParams.toString()}`);
         } catch (e) {

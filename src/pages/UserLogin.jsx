@@ -24,11 +24,15 @@ const UserLogin = () => {
         setError('');
 
         try {
-            await api.post("/auth/login", {
+            const { data } = await api.post("/auth/login", {
                 email,
                 password,
                 clientId: clientId || 'direct-login'
             });
+
+            if (data.accessToken) {
+                localStorage.setItem("accessToken", data.accessToken);
+            }
 
             if (clientId && redirectUri) {
                 const queryStr = searchParams.toString() || new URLSearchParams(oauthState).toString();
