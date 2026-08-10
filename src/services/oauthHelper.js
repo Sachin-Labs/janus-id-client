@@ -12,7 +12,7 @@ export const saveOAuthState = (searchParams) => {
     OAUTH_KEYS.forEach(key => {
         const val = searchParams.get(key);
         if (val) {
-            sessionStorage.setItem(`janus_oauth_${key}`, val);
+            sessionStorage.setItem(`sina_auth_${key}`, val);
             savedAny = true;
         }
     });
@@ -23,7 +23,7 @@ export const getOAuthState = () => {
     const state = {};
     let hasState = false;
     OAUTH_KEYS.forEach(key => {
-        const val = sessionStorage.getItem(`janus_oauth_${key}`);
+        const val = sessionStorage.getItem(`sina_auth_${key}`);
         if (val) {
             state[key] = val;
             hasState = true;
@@ -41,6 +41,6 @@ export const getOAuthQueryString = () => {
 
 export const clearOAuthState = () => {
     OAUTH_KEYS.forEach(key => {
-        sessionStorage.removeItem(`janus_oauth_${key}`);
+        sessionStorage.removeItem(`sina_auth_${key}`);
     });
 };

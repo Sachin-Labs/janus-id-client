@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import ThemeToggle from '../components/ThemeToggle';
 import { useAuth } from '../context/AuthContext';
 
 const UserProfile = () => {
@@ -32,7 +33,7 @@ const UserProfile = () => {
             setApps(res.data.apps);
             setFirstName(res.data.user.firstName);
             setLastName(res.data.user.lastName || '');
-        } catch (err) {
+        } catch {
             setError("Failed to load profile. Please login again.");
             // 401 handled by interceptor (logout)
         } finally {
@@ -74,38 +75,41 @@ const UserProfile = () => {
         navigate('/user-login');
     };
 
-    if (loading) return <div className="p-8 text-center text-white">Loading Profile...</div>;
+    if (loading) return <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-main)' }}>Loading Profile...</div>;
 
     return (
-        <div style={{ minHeight: '100vh', background: '#0f1115', color: 'white', padding: '2rem' }}>
+        <div style={{ minHeight: '100vh', background: 'var(--bg-dark)', color: 'var(--text-main)', padding: 'clamp(1rem, 4vw, 2rem)' }}>
             {/* Header */}
-            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+            <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '3rem' }}>
                 <h1 style={{ fontSize: '1.5rem', fontWeight: '600' }}>My Account</h1>
-                <button
-                    onClick={handleLogout}
-                    style={{ background: 'transparent', border: '1px solid #374151', color: 'white', padding: '0.5rem 1rem', borderRadius: '6px', cursor: 'pointer' }}
-                >
-                    Sign Out
-                </button>
+                <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                    <ThemeToggle />
+                    <button
+                        onClick={handleLogout}
+                        style={{ background: 'transparent', border: '1px solid var(--border)', color: 'var(--text-main)', padding: '0.5rem 1rem', borderRadius: '6px', cursor: 'pointer' }}
+                    >
+                        Sign Out
+                    </button>
+                </div>
             </div>
 
             <div style={{ maxWidth: '800px', margin: '0 auto', display: 'grid', gap: '2rem' }}>
 
                 {/* Messages */}
-                {message && <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', padding: '1rem', borderRadius: '8px' }}>{message}</div>}
-                {error && <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '1rem', borderRadius: '8px' }}>{error}</div>}
+                {message && <div style={{ background: 'var(--success-soft)', color: 'var(--success)', padding: '1rem', borderRadius: '8px' }}>{message}</div>}
+                {error && <div style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '1rem', borderRadius: '8px' }}>{error}</div>}
 
                 {/* Personal Info Card */}
                 <div className="glass-card" style={{ padding: '2rem' }}>
-                    <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', borderBottom: '1px solid #374151', paddingBottom: '0.5rem' }}>Personal Information</h2>
+                    <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Personal Information</h2>
                     <form onSubmit={handleUpdateProfile}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))', gap: '1rem' }}>
                             <Input label="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                             <Input label="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                         </div>
                         <div style={{ marginTop: '1rem' }}>
                             <Input label="Email Address" value={user?.email} disabled={true} />
-                            <small style={{ color: '#9ca3af' }}>Email cannot be changed.</small>
+                            <small style={{ color: 'var(--text-muted)' }}>Email cannot be changed.</small>
                         </div>
                         <div style={{ marginTop: '1.5rem', textAlign: 'right' }}>
                             <Button type="submit" style={{ width: 'auto', padding: '0.5rem 1.5rem' }}>Save Changes</Button>
@@ -115,7 +119,7 @@ const UserProfile = () => {
 
                 {/* Security Card */}
                 <div className="glass-card" style={{ padding: '2rem' }}>
-                    <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', borderBottom: '1px solid #374151', paddingBottom: '0.5rem' }}>Security</h2>
+                    <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Security</h2>
                     <form onSubmit={handleChangePassword}>
                         <Input label="Current Password" type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} required />
                         <Input label="New Password" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
@@ -127,19 +131,19 @@ const UserProfile = () => {
 
                 {/* Authorized Apps Card */}
                 <div className="glass-card" style={{ padding: '2rem' }}>
-                    <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', borderBottom: '1px solid #374151', paddingBottom: '0.5rem' }}>Authorized Applications</h2>
+                    <h2 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border)', paddingBottom: '0.5rem' }}>Authorized Applications</h2>
                     {apps.length === 0 ? (
-                        <p style={{ color: '#9ca3af' }}>No applications have access to your account.</p>
+                        <p style={{ color: 'var(--text-muted)' }}>No applications have access to your account.</p>
                     ) : (
                         <div style={{ display: 'grid', gap: '1rem' }}>
                             {apps.map((appItem, idx) => (
-                                <div key={idx} style={{ padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <div>
+                                <div key={idx} className="stack-sm" style={{ padding: '1rem', background: 'var(--bg-hover)', borderRadius: '8px' }}>
+                                    <div style={{ minWidth: 0 }}>
                                         <div style={{ fontWeight: '500' }}>{appItem.application?.name || 'Unknown App'}</div>
-                                        <div style={{ fontSize: '0.85rem', color: '#9ca3af' }}>{appItem.application?.description}</div>
+                                        <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{appItem.application?.description}</div>
                                     </div>
                                     <div style={{ textAlign: 'right' }}>
-                                        <div style={{ fontSize: '0.8rem', color: '#9ca3af' }}>Roles</div>
+                                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Roles</div>
                                         <div style={{ fontSize: '0.9rem' }}>{appItem.roles.map(r => r.name).join(', ') || 'None'}</div>
                                     </div>
                                 </div>

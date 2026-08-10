@@ -48,6 +48,7 @@ const AppDetails = () => {
 
     useEffect(() => {
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [appId]);
 
     useEffect(() => {
@@ -56,12 +57,14 @@ const AppDetails = () => {
         } else {
             setRolePermissions([]);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedMappingRole]);
 
     useEffect(() => {
         if (activeTab === 'users') {
             fetchUsers();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeTab]);
 
     const fetchData = async () => {
@@ -104,7 +107,7 @@ const AppDetails = () => {
             const res = await api.get(`/admin/roles/${roleId}/permissions?applicationId=${appId}`);
             const mappedIds = res.data.permissions.map(rp => rp.permission._id);
             setRolePermissions(mappedIds);
-        } catch (e) {
+        } catch {
             setRolePermissions([]);
         }
     }
@@ -118,7 +121,7 @@ const AppDetails = () => {
             } else {
                 setSelectedUserRoles([]);
             }
-        } catch (e) {
+        } catch {
             setSelectedUserRoles([]);
         }
     }
@@ -133,7 +136,7 @@ const AppDetails = () => {
             });
             alert("Settings Updated Successfully");
             fetchData();
-        } catch (err) {
+        } catch {
             alert("Failed to update settings");
         }
     };
@@ -144,7 +147,7 @@ const AppDetails = () => {
             setRotatedSecret(data.plainSecret);
             setIsRotateModalOpen(false);
             setIsRotationSuccessOpen(true);
-        } catch (e) {
+        } catch {
             alert("Failed to rotate secret");
         }
     }
@@ -166,7 +169,7 @@ const AppDetails = () => {
             setIsUserRoleModalOpen(false);
             alert("User Roles Updated");
             fetchUsers();
-        } catch (e) {
+        } catch {
             alert("Failed to update user roles");
         }
     }
@@ -198,7 +201,7 @@ const AppDetails = () => {
             setIsRoleModalOpen(false);
             setNewRole({ name: '', description: '' });
             fetchData();
-        } catch (e) { alert("Error"); }
+        } catch { alert("Error"); }
     }
 
     const handleCreatePerm = async (e) => {
@@ -208,7 +211,7 @@ const AppDetails = () => {
             setIsPermModalOpen(false);
             setNewPerm({ name: '', description: '' });
             fetchData();
-        } catch (e) { alert("Error"); }
+        } catch { alert("Error"); }
     }
 
     const handleUpdateRole = async (e) => {
@@ -217,7 +220,7 @@ const AppDetails = () => {
             await api.put(`/admin/roles/${editRole._id}`, { ...editRole });
             setIsEditRoleModalOpen(false);
             fetchData();
-        } catch (e) { alert("Error"); }
+        } catch { alert("Error"); }
     }
 
     const handleUpdatePerm = async (e) => {
@@ -226,22 +229,22 @@ const AppDetails = () => {
             await api.put(`/admin/permissions/${editPerm._id}`, { ...editPerm });
             setIsEditPermModalOpen(false);
             fetchData();
-        } catch (e) { alert("Error"); }
+        } catch { alert("Error"); }
     }
 
     const handleDeleteRole = async (id) => {
         if (!window.confirm("Are you sure you want to delete this role?")) return;
-        try { await api.delete(`/admin/roles/${id}`); fetchData(); } catch (e) { alert("Delete failed"); }
+        try { await api.delete(`/admin/roles/${id}`); fetchData(); } catch { alert("Delete failed"); }
     }
 
     const handleDeletePerm = async (id) => {
         if (!window.confirm("Are you sure you want to delete this permission?")) return;
-        try { await api.delete(`/admin/permissions/${id}`); fetchData(); } catch (e) { alert("Delete failed"); }
+        try { await api.delete(`/admin/permissions/${id}`); fetchData(); } catch { alert("Delete failed"); }
     }
 
     const handleDeleteApp = async () => {
         if (!window.confirm("DANGER: Are you sure you want to delete this application?")) return;
-        try { await api.delete(`/admin/applications/${appId}`); navigate('/admin'); } catch (e) { alert("Delete failed"); }
+        try { await api.delete(`/admin/applications/${appId}`); navigate('/admin'); } catch { alert("Delete failed"); }
     }
 
     const handleUpdateApp = async (e) => {
@@ -251,7 +254,7 @@ const AppDetails = () => {
             setApp({ ...app, ...editApp });
             setIsEditAppModalOpen(false);
             alert("Application updated");
-        } catch (e) { alert("Update failed"); }
+        } catch { alert("Update failed"); }
     }
 
     const togglePermission = async (roleId, permissionId, isChecked) => {
@@ -263,7 +266,7 @@ const AppDetails = () => {
                 await api.delete(`/admin/roles/${roleId}/permissions`, { data: { permissionsId: permissionId, applicationId: appId } });
                 setRolePermissions(prev => prev.filter(id => id !== permissionId));
             }
-        } catch (e) { alert("Failed to update mapping"); }
+        } catch { alert("Failed to update mapping"); }
     }
 
     const copyToClipboard = (text) => {
@@ -279,9 +282,9 @@ const AppDetails = () => {
         <div className="fade-in">
             <div style={{ marginBottom: '2rem', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h1 style={{ marginRight: '1rem' }}>{app.name}</h1>
-                        <span style={{ background: 'var(--bg-card)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem', border: '1px solid var(--border)' }}>ID: {app.clientId}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', minWidth: 0 }}>
+                        <h1 className="truncate" style={{ marginRight: '1rem' }}>{app.name}</h1>
+                        <span className="break-all" style={{ background: 'var(--bg-card)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem', border: '1px solid var(--border)' }}>ID: {app.clientId}</span>
                     </div>
                 </div>
                 <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>{app.description}</p>
@@ -292,9 +295,9 @@ const AppDetails = () => {
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             style={{
-                                background: activeTab === tab ? 'var(--primary)' : 'transparent',
+                                background: activeTab === tab ? 'var(--primary-btn-bg)' : 'transparent',
                                 border: activeTab === tab ? 'none' : '1px solid var(--border)',
-                                color: activeTab === tab ? 'white' : 'var(--text-muted)',
+                                color: activeTab === tab ? 'var(--primary-contrast)' : 'var(--text-muted)',
                                 padding: '8px 16px',
                                 borderRadius: 'var(--radius)',
                                 cursor: 'pointer',
@@ -311,7 +314,7 @@ const AppDetails = () => {
 
             {activeTab === 'info' && (
                 <div className="glass-card" style={{ padding: '24px', position: 'relative' }}>
-                    <div style={{ position: 'absolute', top: '24px', right: '24px' }}>
+                    <div className="cred-edit" style={{ position: 'absolute', top: '24px', right: '24px' }}>
                         <Button onClick={() => { setEditApp({ name: app.name, description: app.description }); setIsEditAppModalOpen(true); }}>
                             <div className="flex-center"><Edit size={16} style={{ marginRight: '8px' }} /> Edit Details</div>
                         </Button>
@@ -319,16 +322,16 @@ const AppDetails = () => {
                     <h3 style={{ marginBottom: '1.5rem' }}>Credentials</h3>
                     <div style={{ marginBottom: '1.5rem' }}>
                         <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Client ID</label>
-                        <div style={{ display: 'flex', alignItems: 'center', background: 'var(--bg-input)', padding: '12px', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
-                            <code style={{ flex: 1, fontFamily: 'monospace', fontSize: '1rem' }}>{app.clientId}</code>
-                            <button onClick={() => copyToClipboard(app.clientId)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px' }}><Copy size={18} /></button>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--bg-input)', padding: '12px', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
+                            <code className="break-all" style={{ flex: 1, minWidth: 0, fontFamily: 'monospace', fontSize: '1rem' }}>{app.clientId}</code>
+                            <button onClick={() => copyToClipboard(app.clientId)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px', flexShrink: 0 }}><Copy size={18} /></button>
                         </div>
                     </div>
                     <div>
                         <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Client Secret</label>
-                        <div style={{ display: 'flex', alignItems: 'center', background: 'var(--bg-input)', padding: '12px', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
-                            <code style={{ flex: 1, letterSpacing: '4px', opacity: 0.5, fontSize: '1.2rem' }}>••••••••••••••••••••••••••••••••</code>
-                            <button onClick={() => setIsRotateModalOpen(true)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', padding: '4px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--bg-input)', padding: '12px', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
+                            <code style={{ flex: 1, minWidth: 0, letterSpacing: '4px', opacity: 0.5, fontSize: '1.2rem', overflow: 'hidden' }}>••••••••••••••••••••••••••••••••</code>
+                            <button onClick={() => setIsRotateModalOpen(true)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', padding: '4px', flexShrink: 0 }}>
                                 <RefreshCw size={18} /> Rotate
                             </button>
                         </div>
@@ -341,7 +344,7 @@ const AppDetails = () => {
 
             {activeTab === 'users' && (
                 <div className="fade-in">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <div className="stack-sm" style={{ marginBottom: '1.5rem' }}>
                         <h3 style={{ margin: 0 }}>Registered Users</h3>
                         <Button onClick={() => setIsAddUserModalOpen(true)} style={{ width: 'auto', padding: '8px 16px' }}>
                             <div className="flex-center">
@@ -351,13 +354,13 @@ const AppDetails = () => {
                     </div>
                     <div style={{ display: 'grid', gap: '1rem' }}>
                         {users.map(u => (
-                            <div key={u._id} className="glass-card" style={{ padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div>
+                            <div key={u._id} className="glass-card stack-sm" style={{ padding: '1.25rem' }}>
+                                <div style={{ minWidth: 0 }}>
                                     <h4 style={{ margin: 0 }}>{u.user.firstName} {u.user.lastName}</h4>
                                     <p style={{ color: 'var(--text-muted)', margin: '4px 0', fontSize: '0.9rem' }}>{u.user.email}</p>
                                     <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
                                         {u.roles.map(r => (
-                                            <span key={r._id} style={{ fontSize: '0.75rem', background: 'rgba(99, 102, 241, 0.1)', color: 'var(--primary)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(99, 102, 241, 0.2)' }}>{r.name}</span>
+                                            <span key={r._id} style={{ fontSize: '0.75rem', background: 'var(--primary-soft)', color: 'var(--primary)', padding: '2px 8px', borderRadius: '4px', border: '1px solid var(--primary-border)' }}>{r.name}</span>
                                         ))}
                                     </div>
                                 </div>
@@ -371,11 +374,11 @@ const AppDetails = () => {
 
             {activeTab === 'roles' && (
                 <div className="fade-in">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <div className="stack-sm" style={{ marginBottom: '1.5rem' }}>
                         <h3>Roles</h3>
-                        <Button onClick={() => setIsRoleModalOpen(true)} style={{ width: '160px' }}><div className="flex-center"><Plus size={18} style={{ marginRight: '8px' }} /> Add Role</div></Button>
+                        <Button onClick={() => setIsRoleModalOpen(true)} style={{ width: 'auto' }}><div className="flex-center"><Plus size={18} style={{ marginRight: '8px' }} /> Add Role</div></Button>
                     </div>
-                    <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+                    <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))' }}>
                         {roles.map(r => (
                             <div key={r._id} className="glass-card" style={{ padding: '1.25rem', position: 'relative' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
@@ -385,7 +388,7 @@ const AppDetails = () => {
                                 <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>{r.description}</p>
                                 <div style={{ position: 'absolute', top: '15px', right: '15px', display: 'flex', gap: '8px' }}>
                                     <button onClick={() => { setEditRole(r); setIsEditRoleModalOpen(true); }} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}><Edit size={16} /></button>
-                                    <button onClick={() => handleDeleteRole(r._id)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#ef4444' }}><Trash size={16} /></button>
+                                    <button onClick={() => handleDeleteRole(r._id)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}><Trash size={16} /></button>
                                 </div>
                             </div>
                         ))}
@@ -395,11 +398,11 @@ const AppDetails = () => {
 
             {activeTab === 'permissions' && (
                 <div className="fade-in">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <div className="stack-sm" style={{ marginBottom: '1.5rem' }}>
                         <h3>Permissions</h3>
-                        <Button onClick={() => setIsPermModalOpen(true)} style={{ width: '180px' }}><div className="flex-center"><Plus size={18} style={{ marginRight: '8px' }} /> Add Permission</div></Button>
+                        <Button onClick={() => setIsPermModalOpen(true)} style={{ width: 'auto' }}><div className="flex-center"><Plus size={18} style={{ marginRight: '8px' }} /> Add Permission</div></Button>
                     </div>
-                    <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+                    <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))' }}>
                         {permissions.map(p => (
                             <div key={p._id} className="glass-card" style={{ padding: '1.25rem', position: 'relative' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
@@ -409,7 +412,7 @@ const AppDetails = () => {
                                 <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>{p.description}</p>
                                 <div style={{ position: 'absolute', top: '15px', right: '15px', display: 'flex', gap: '8px' }}>
                                     <button onClick={() => { setEditPerm(p); setIsEditPermModalOpen(true); }} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}><Edit size={16} /></button>
-                                    <button onClick={() => handleDeletePerm(p._id)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#ef4444' }}><Trash size={16} /></button>
+                                    <button onClick={() => handleDeletePerm(p._id)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}><Trash size={16} /></button>
                                 </div>
                             </div>
                         ))}
@@ -420,7 +423,7 @@ const AppDetails = () => {
             {activeTab === 'mapping' && (
                 <div className="glass-card fade-in" style={{ padding: '24px' }}>
                     <h3 style={{ marginBottom: '1.5rem' }}>Role-Permission Mapping</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '2rem' }}>
+                    <div className="mapping-grid" style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '2rem' }}>
                         <div style={{ borderRight: '1px solid var(--border)', paddingRight: '1.5rem' }}>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>Select a role to manage its permissions:</p>
                             {roles.map(r => (
@@ -431,8 +434,8 @@ const AppDetails = () => {
                                         padding: '12px',
                                         cursor: 'pointer',
                                         borderRadius: 'var(--radius)',
-                                        background: selectedMappingRole?._id === r._id ? 'rgba(99, 102, 241, 0.2)' : 'transparent',
-                                        color: selectedMappingRole?._id === r._id ? 'white' : 'var(--text-muted)',
+                                        background: selectedMappingRole?._id === r._id ? 'var(--primary-soft)' : 'transparent',
+                                        color: selectedMappingRole?._id === r._id ? 'var(--text-main)' : 'var(--text-muted)',
                                         marginBottom: '0.5rem',
                                         transition: 'all 0.2s'
                                     }}
@@ -472,18 +475,18 @@ const AppDetails = () => {
 
             {activeTab === 'integration' && (
                 <div className="glass-card fade-in" style={{ padding: '24px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <div className="stack-sm" style={{ marginBottom: '1.5rem' }}>
                         <div>
                             <h3 style={{ marginBottom: '0.5rem' }}>Integration Guide</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Follow the Authorization Code Flow to securely authenticate users.</p>
                         </div>
-                        <div style={{ display: 'flex', gap: '6px', background: 'var(--bg-input)', padding: '6px', borderRadius: '10px', border: '1px solid var(--border)' }}>
+                        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', background: 'var(--bg-input)', padding: '6px', borderRadius: '10px', border: '1px solid var(--border)' }}>
                             <button
                                 onClick={() => setIntegrationFlow('pkce')}
                                 style={{
-                                    background: integrationFlow === 'pkce' ? 'var(--primary)' : 'transparent',
+                                    background: integrationFlow === 'pkce' ? 'var(--primary-btn-bg)' : 'transparent',
                                     border: 'none',
-                                    color: integrationFlow === 'pkce' ? 'white' : 'var(--text-muted)',
+                                    color: integrationFlow === 'pkce' ? 'var(--primary-contrast)' : 'var(--text-muted)',
                                     padding: '8px 14px',
                                     borderRadius: '8px',
                                     cursor: 'pointer',
@@ -499,9 +502,9 @@ const AppDetails = () => {
                             <button
                                 onClick={() => setIntegrationFlow('standard')}
                                 style={{
-                                    background: integrationFlow === 'standard' ? 'var(--primary)' : 'transparent',
+                                    background: integrationFlow === 'standard' ? 'var(--primary-btn-bg)' : 'transparent',
                                     border: 'none',
-                                    color: integrationFlow === 'standard' ? 'white' : 'var(--text-muted)',
+                                    color: integrationFlow === 'standard' ? 'var(--primary-contrast)' : 'var(--text-muted)',
                                     padding: '8px 14px',
                                     borderRadius: '8px',
                                     cursor: 'pointer',
@@ -519,7 +522,7 @@ const AppDetails = () => {
 
                     {integrationFlow === 'pkce' ? (
                         <div className="fade-in">
-                            <div style={{ background: 'rgba(99, 102, 241, 0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
+                            <div style={{ background: 'var(--primary-soft)', padding: '1rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid var(--primary-border)' }}>
                                 <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--primary)', lineHeight: '1.5' }}>
                                     <strong>PKCE Recommended:</strong> Best for SPAs (React, Vue) or Mobile apps. It uses a one-time cryptographic handshake instead of a permanent secret.
                                 </p>
@@ -527,17 +530,17 @@ const AppDetails = () => {
 
                             <div style={{ marginBottom: '2rem' }}>
                                 <h4 style={{ marginBottom: '0.75rem' }}>1. Authorize (Frontend Redirect)</h4>
-                                <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
-                                    <code style={{ color: '#38bdf8', fontFamily: 'monospace', fontSize: '0.9rem' }}>
-                                        {`https://janusid.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK&codeChallenge=HASHED_VERIFIER&codeChallengeMethod=S256`}
+                                <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
+                                    <code style={{ color: 'var(--info)', fontFamily: 'monospace', fontSize: '0.9rem' }}>
+                                        {`https://sina-auth.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK&codeChallenge=HASHED_VERIFIER&codeChallengeMethod=S256`}
                                     </code>
                                 </div>
                             </div>
 
                             <div>
                                 <h4 style={{ marginBottom: '0.75rem' }}>2. Exchange Code for Token</h4>
-                                <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
-                                    <pre style={{ margin: 0, color: '#94a3b8', fontSize: '0.85rem', lineHeight: '1.6' }}>
+                                <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
+                                    <pre style={{ margin: 0, color: 'var(--code-text)', fontSize: '0.85rem', lineHeight: '1.6' }}>
                                         {`// No clientSecret required for PKCE
 const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
     code: 'AUTH_CODE_FROM_URL',
@@ -550,25 +553,25 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
                         </div>
                     ) : (
                         <div className="fade-in">
-                            <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
-                                <p style={{ margin: 0, fontSize: '0.9rem', color: '#10b981', lineHeight: '1.5' }}>
+                            <div style={{ background: 'var(--success-soft)', padding: '1rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid var(--success-border)' }}>
+                                <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--success)', lineHeight: '1.5' }}>
                                     <strong>Standard Flow:</strong> Best for servers (Node, Python, Go) where you can securely hide your Client Secret in environment variables.
                                 </p>
                             </div>
 
                             <div style={{ marginBottom: '2rem' }}>
                                 <h4 style={{ marginBottom: '0.75rem' }}>1. Authorize (Redirect)</h4>
-                                <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
-                                    <code style={{ color: '#38bdf8', fontFamily: 'monospace', fontSize: '0.9rem' }}>
-                                        {`https://janusid.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK`}
+                                <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
+                                    <code style={{ color: 'var(--info)', fontFamily: 'monospace', fontSize: '0.9rem' }}>
+                                        {`https://sina-auth.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK`}
                                     </code>
                                 </div>
                             </div>
 
                             <div>
                                 <h4 style={{ marginBottom: '0.75rem' }}>2. Exchange (Server-Side)</h4>
-                                <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
-                                    <pre style={{ margin: 0, color: '#94a3b8', fontSize: '0.85rem', lineHeight: '1.6' }}>
+                                <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
+                                    <pre style={{ margin: 0, color: 'var(--code-text)', fontSize: '0.85rem', lineHeight: '1.6' }}>
                                         {`// Requires clientSecret (Keep this on your server!)
 const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
     code: 'AUTH_CODE_FROM_URL',
@@ -637,7 +640,7 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
 
                         <div style={{ display: 'flex', gap: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
                             <Button onClick={handleUpdateSettings}>Save Settings</Button>
-                            <Button onClick={handleDeleteApp} style={{ background: '#ef4444', border: 'none' }}>Delete Application</Button>
+                            <Button onClick={handleDeleteApp} style={{ background: 'var(--danger)', border: 'none' }}>Delete Application</Button>
                         </div>
                     </div>
                 </div>
@@ -648,32 +651,32 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
             {/* Secret Rotation */}
             <Modal isOpen={isRotateModalOpen} onClose={() => setIsRotateModalOpen(false)} title="Rotate Client Secret">
                 <div style={{ padding: '0.5rem 0' }}>
-                    <div style={{ background: 'rgba(239, 68, 68, 0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid rgba(239, 68, 68, 0.2)', display: 'flex', gap: '12px' }}>
-                        <AlertTriangle style={{ color: '#ef4444', flexShrink: 0 }} size={24} />
-                        <p style={{ color: '#ef4444', margin: 0, fontSize: '0.9rem' }}>
+                    <div style={{ background: 'var(--danger-soft)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid var(--danger-border)', display: 'flex', gap: '12px' }}>
+                        <AlertTriangle style={{ color: 'var(--danger)', flexShrink: 0 }} size={24} />
+                        <p style={{ color: 'var(--danger)', margin: 0, fontSize: '0.9rem' }}>
                             Rotating the secret will **immediately** invalidate the current one. All apps using the old secret will lose access until updated.
                         </p>
                     </div>
                     <p style={{ marginBottom: '2rem' }}>Are you sure you want to proceed with rotation for <strong>{app.name}</strong>?</p>
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         <Button onClick={() => setIsRotateModalOpen(false)} style={{ background: 'transparent', border: '1px solid var(--border)' }}>Cancel</Button>
-                        <Button onClick={handleRotateSecret} style={{ background: '#ef4444', border: 'none' }}>Rotate Now</Button>
+                        <Button onClick={handleRotateSecret} style={{ background: 'var(--danger)', border: 'none' }}>Rotate Now</Button>
                     </div>
                 </div>
             </Modal>
 
             <Modal isOpen={isRotationSuccessOpen} onClose={() => setIsRotationSuccessOpen(false)} title="New Client Secret">
                 <div style={{ padding: '0.5rem 0' }}>
-                    <div style={{ background: 'rgba(234, 179, 8, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid #eab308', marginBottom: '1.5rem', display: 'flex', gap: '12px' }}>
-                        <AlertCircle style={{ color: '#eab308', flexShrink: 0 }} size={24} />
-                        <p style={{ color: '#eab308', margin: 0, fontSize: '0.9rem' }}>
+                    <div style={{ background: 'var(--warning-soft)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--warning-border)', marginBottom: '1.5rem', display: 'flex', gap: '12px' }}>
+                        <AlertCircle style={{ color: 'var(--warning)', flexShrink: 0 }} size={24} />
+                        <p style={{ color: 'var(--warning)', margin: 0, fontSize: '0.9rem' }}>
                             **Important:** This secret is only shown once. Copy it and store it securely. We do not store plain-text secrets.
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '8px', marginBottom: '2rem' }}>
                         <div style={{ flex: 1, background: 'var(--bg-input)', padding: '12px', borderRadius: '8px', fontFamily: 'monospace', color: 'var(--primary)', fontWeight: 'bold', wordBreak: 'break-all', fontSize: '1.1rem' }}>{rotatedSecret}</div>
                         <button onClick={() => copyToClipboard(rotatedSecret)} style={{ background: 'var(--bg-input)', border: 'none', padding: '12px', borderRadius: '8px', cursor: 'pointer' }}>
-                            {copied ? <Check size={20} color="#10b981" /> : <Copy size={20} />}
+                            {copied ? <Check size={20} color="var(--success)" /> : <Copy size={20} />}
                         </button>
                     </div>
                     <Button onClick={() => setIsRotationSuccessOpen(false)}>I have saved my secret</Button>
@@ -741,7 +744,7 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
             <Modal isOpen={isAddUserModalOpen} onClose={() => setIsAddUserModalOpen(false)} title="Add Existing User by Email">
                 <form onSubmit={handleAddUserByEmail}>
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem', lineHeight: '1.5' }}>
-                        Enter the email address of a registered global Janus ID user to link them to this application with its default roles.
+                        Enter the email address of a registered global SINA Auth user to link them to this application with its default roles.
                     </p>
                     <Input
                         label="User Email Address"

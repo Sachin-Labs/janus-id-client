@@ -35,7 +35,7 @@ const Login = () => {
     return (
         <form onSubmit={handleSubmit}>
             <h2 style={{ marginBottom: '1.5rem', textAlign: 'center' }}>Welcome Back</h2>
-            {error && <div style={{ color: '#ef4444', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>}
+            {error && <div style={{ color: 'var(--danger)', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>}
 
             <Input
                 label="Email Address"

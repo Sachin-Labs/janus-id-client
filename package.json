@@ -1,5 +1,5 @@
 {
-  "name": "janus-id-client",
+  "name": "sina-auth-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -15,7 +15,6 @@
     "lucide-react": "^0.562.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-icons": "^5.5.0",
     "react-router-dom": "^7.11.0"
   },
   "devDependencies": {

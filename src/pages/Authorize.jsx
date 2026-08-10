@@ -91,7 +91,7 @@ const Authorize = () => {
     if (!clientId || !redirectUri) {
         return (
             <div className="flex-center" style={{ height: '100vh', flexDirection: 'column' }}>
-                <h2 style={{ color: '#ef4444' }}>Invalid Request</h2>
+                <h2 style={{ color: 'var(--danger)' }}>Invalid Request</h2>
                 <p style={{ color: 'var(--text-muted)' }}>Missing Client ID or Redirect URI.</p>
             </div>
         )
@@ -126,7 +126,7 @@ const Authorize = () => {
                         </button>
                         <button
                             onClick={handleAllow}
-                            style={{ flex: 1, padding: '10px', borderRadius: 'var(--radius)', border: 'none', background: 'var(--primary)', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+                            style={{ flex: 1, padding: '10px', borderRadius: 'var(--radius)', border: 'none', background: 'var(--primary-btn-bg)', color: 'var(--primary-contrast)', cursor: 'pointer', fontWeight: 600 }}
                         >
                             Allow
                         </button>
@@ -138,7 +138,7 @@ const Authorize = () => {
                         </p>
                         <button
                             onClick={handleLogout}
-                            style={{ background: 'transparent', border: 'none', color: '#ef4444', textDecoration: 'underline', cursor: 'pointer' }}
+                            style={{ background: 'transparent', border: 'none', color: 'var(--danger)', textDecoration: 'underline', cursor: 'pointer' }}
                         >
                             Logout & Switch Account
                         </button>
@@ -156,7 +156,7 @@ const Authorize = () => {
                 .spinner {
                     width: 40px;
                     height: 40px;
-                    border: 4px solid rgba(99, 102, 241, 0.1);
+                    border: 4px solid var(--primary-border);
                     border-left-color: var(--primary);
                     border-radius: 50%;
                     animation: spin 1s linear infinite;
