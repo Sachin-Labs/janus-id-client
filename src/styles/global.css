@@ -4,21 +4,35 @@
     box-sizing: border-box;
 }
 
+/* Input placeholders */
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-faint);
+    opacity: 1;
+    font-weight: 400;
+}
+
 /* Glassmorphism Utilities */
 .glass-card {
-    background: rgba(22, 27, 34, 0.7);
+    background: var(--bg-card);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(48, 54, 61, 0.5);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border);
+    box-shadow: var(--card-shadow);
     border-radius: var(--radius-lg);
 }
 
 /* Typography */
 h1,
 h2,
-h3 {
+h3,
+h4 {
     margin: 0;
     font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+p {
+    margin: 0;
 }
 
 /* Animations */
@@ -54,4 +68,23 @@ h3 {
 
 .mb-4 {
     margin-bottom: 1rem;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-faint);
 }

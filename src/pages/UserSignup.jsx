@@ -69,7 +69,7 @@ const UserSignup = () => {
     if (!clientId || !redirectUri) {
         return (
             <div className="flex-center" style={{ height: '100vh', flexDirection: 'column' }}>
-                <h2 style={{ color: '#ef4444' }}>Invalid Request</h2>
+                <h2 style={{ color: 'var(--danger)' }}>Invalid Request</h2>
                 <p style={{ color: 'var(--text-muted)' }}>Missing Client ID or Redirect URI.</p>
             </div>
         )
@@ -84,7 +84,7 @@ const UserSignup = () => {
                 </p>
             </div>
 
-            {error && <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '10px', borderRadius: '4px', marginBottom: '1rem', fontSize: '0.9rem', textAlign: 'center' }}>{error}</div>}
+            {error && <div style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '10px', borderRadius: '4px', marginBottom: '1rem', fontSize: '0.9rem', textAlign: 'center' }}>{error}</div>}
 
             {step === 1 ? (
                 <form onSubmit={handleSendOtp}>

@@ -44,7 +44,7 @@ const Signup = () => {
     return (
         <form onSubmit={handleSubmit}>
             <h2 style={{ marginBottom: '1.5rem', textAlign: 'center' }}>Create Account</h2>
-            {error && <div style={{ color: '#ef4444', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>}
+            {error && <div style={{ color: 'var(--danger)', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>}
 
             <div style={{ display: 'flex', gap: '1rem' }}>
                 <Input placeholder="First Name" value={formData.firstName} onChange={handleInputChange('firstName')} required />

@@ -1,6 +1,6 @@
-# 🎭 Janus ID Frontend
+# 🎭 SINA Auth Frontend
 
-Janus ID is a modern, enterprise-grade Identity Engine designed for secure authentication and granular access control. This repository contains the administrative dashboard and hosted login pages.
+SINA Auth is a modern, enterprise-grade Identity Engine designed for secure authentication and granular access control. This repository contains the administrative dashboard and hosted login pages.
 
 ## ✨ Features
 
@@ -36,7 +36,7 @@ Janus ID is a modern, enterprise-grade Identity Engine designed for secure authe
 
 ## 📜 Integration Flows
 
-Janus ID supports two main integration methods:
+SINA Auth supports two main integration methods:
 
 ### 1. Frontend / SPA Flow (PKCE)
 The most secure flow for React, Vue, or Mobile apps. No client secret is required in the frontend code.

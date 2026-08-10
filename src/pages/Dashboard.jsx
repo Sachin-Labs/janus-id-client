@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Server, Copy, Check, AlertCircle } from 'lucide-react';
+import { Plus, Copy, Check, AlertCircle } from 'lucide-react';
 import Button from '../components/Button';
 import Modal from '../components/Modal';
 import Input from '../components/Input';
@@ -85,8 +85,14 @@ const Dashboard = () => {
                         >
                             <div style={{ padding: '1.5rem' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-                                    <div style={{ padding: '10px', background: 'rgba(99, 102, 241, 0.1)', borderRadius: '8px', marginRight: '1rem', color: 'var(--primary)' }}>
-                                        <Server size={24} />
+                                    <div style={{
+                                        width: '46px', height: '46px', borderRadius: '12px', marginRight: '1rem', flexShrink: 0,
+                                        background: 'linear-gradient(135deg, var(--primary-hover), var(--primary))',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        color: '#FFFFFF', fontSize: '1.3rem', fontWeight: '700',
+                                        boxShadow: '0 4px 12px var(--primary-border)'
+                                    }}>
+                                        {(app.name || 'A')[0].toUpperCase()}
                                     </div>
                                     <h3 style={{ fontSize: '1.1rem' }}>{app.name}</h3>
                                 </div>
@@ -130,9 +136,9 @@ const Dashboard = () => {
             {/* Success Modal - SHOW ONCE PATTERN */}
             <Modal isOpen={isSuccessModalOpen} onClose={() => setIsSuccessModalOpen(false)} title="Application Created Successfully">
                 <div style={{ padding: '0.5rem 0' }}>
-                    <div style={{ background: 'rgba(234, 179, 8, 0.1)', border: '1px solid rgba(234, 179, 8, 0.2)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', display: 'flex', gap: '0.75rem' }}>
-                        <AlertCircle style={{ color: '#eab308', flexShrink: 0 }} size={20} />
-                        <p style={{ fontSize: '0.85rem', color: '#eab308', margin: 0 }}>
+                    <div style={{ background: 'var(--warning-soft)', border: '1px solid var(--warning-border)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', display: 'flex', gap: '0.75rem' }}>
+                        <AlertCircle style={{ color: 'var(--warning)', flexShrink: 0 }} size={20} />
+                        <p style={{ fontSize: '0.85rem', color: 'var(--warning)', margin: 0 }}>
                             <strong>Security Warning:</strong> This is the only time we will show your Client Secret. Please copy it and store it securely. We only store the hashed version in our database.
                         </p>
                     </div>
@@ -156,7 +162,7 @@ const Dashboard = () => {
                                 {createdApp?.plainSecret}
                             </div>
                             <button onClick={() => copyToClipboard(createdApp?.plainSecret)} style={{ background: 'var(--bg-input)', border: 'none', color: 'var(--text-muted)', padding: '0.75rem', borderRadius: '6px', cursor: 'pointer' }}>
-                                {copied ? <Check size={16} style={{ color: '#10b981' }} /> : <Copy size={16} />}
+                                {copied ? <Check size={16} style={{ color: 'var(--success)' }} /> : <Copy size={16} />}
                             </button>
                         </div>
                     </div>

@@ -292,9 +292,9 @@ const AppDetails = () => {
                             key={tab}
                             onClick={() => setActiveTab(tab)}
                             style={{
-                                background: activeTab === tab ? 'var(--primary)' : 'transparent',
+                                background: activeTab === tab ? 'var(--primary-btn-bg)' : 'transparent',
                                 border: activeTab === tab ? 'none' : '1px solid var(--border)',
-                                color: activeTab === tab ? 'white' : 'var(--text-muted)',
+                                color: activeTab === tab ? 'var(--primary-contrast)' : 'var(--text-muted)',
                                 padding: '8px 16px',
                                 borderRadius: 'var(--radius)',
                                 cursor: 'pointer',
@@ -357,7 +357,7 @@ const AppDetails = () => {
                                     <p style={{ color: 'var(--text-muted)', margin: '4px 0', fontSize: '0.9rem' }}>{u.user.email}</p>
                                     <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
                                         {u.roles.map(r => (
-                                            <span key={r._id} style={{ fontSize: '0.75rem', background: 'rgba(99, 102, 241, 0.1)', color: 'var(--primary)', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(99, 102, 241, 0.2)' }}>{r.name}</span>
+                                            <span key={r._id} style={{ fontSize: '0.75rem', background: 'var(--primary-soft)', color: 'var(--primary)', padding: '2px 8px', borderRadius: '4px', border: '1px solid var(--primary-border)' }}>{r.name}</span>
                                         ))}
                                     </div>
                                 </div>
@@ -385,7 +385,7 @@ const AppDetails = () => {
                                 <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>{r.description}</p>
                                 <div style={{ position: 'absolute', top: '15px', right: '15px', display: 'flex', gap: '8px' }}>
                                     <button onClick={() => { setEditRole(r); setIsEditRoleModalOpen(true); }} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}><Edit size={16} /></button>
-                                    <button onClick={() => handleDeleteRole(r._id)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#ef4444' }}><Trash size={16} /></button>
+                                    <button onClick={() => handleDeleteRole(r._id)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}><Trash size={16} /></button>
                                 </div>
                             </div>
                         ))}
@@ -409,7 +409,7 @@ const AppDetails = () => {
                                 <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>{p.description}</p>
                                 <div style={{ position: 'absolute', top: '15px', right: '15px', display: 'flex', gap: '8px' }}>
                                     <button onClick={() => { setEditPerm(p); setIsEditPermModalOpen(true); }} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}><Edit size={16} /></button>
-                                    <button onClick={() => handleDeletePerm(p._id)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#ef4444' }}><Trash size={16} /></button>
+                                    <button onClick={() => handleDeletePerm(p._id)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--danger)' }}><Trash size={16} /></button>
                                 </div>
                             </div>
                         ))}
@@ -431,8 +431,8 @@ const AppDetails = () => {
                                         padding: '12px',
                                         cursor: 'pointer',
                                         borderRadius: 'var(--radius)',
-                                        background: selectedMappingRole?._id === r._id ? 'rgba(99, 102, 241, 0.2)' : 'transparent',
-                                        color: selectedMappingRole?._id === r._id ? 'white' : 'var(--text-muted)',
+                                        background: selectedMappingRole?._id === r._id ? 'var(--primary-soft)' : 'transparent',
+                                        color: selectedMappingRole?._id === r._id ? 'var(--text-main)' : 'var(--text-muted)',
                                         marginBottom: '0.5rem',
                                         transition: 'all 0.2s'
                                     }}
@@ -481,9 +481,9 @@ const AppDetails = () => {
                             <button
                                 onClick={() => setIntegrationFlow('pkce')}
                                 style={{
-                                    background: integrationFlow === 'pkce' ? 'var(--primary)' : 'transparent',
+                                    background: integrationFlow === 'pkce' ? 'var(--primary-btn-bg)' : 'transparent',
                                     border: 'none',
-                                    color: integrationFlow === 'pkce' ? 'white' : 'var(--text-muted)',
+                                    color: integrationFlow === 'pkce' ? 'var(--primary-contrast)' : 'var(--text-muted)',
                                     padding: '8px 14px',
                                     borderRadius: '8px',
                                     cursor: 'pointer',
@@ -499,9 +499,9 @@ const AppDetails = () => {
                             <button
                                 onClick={() => setIntegrationFlow('standard')}
                                 style={{
-                                    background: integrationFlow === 'standard' ? 'var(--primary)' : 'transparent',
+                                    background: integrationFlow === 'standard' ? 'var(--primary-btn-bg)' : 'transparent',
                                     border: 'none',
-                                    color: integrationFlow === 'standard' ? 'white' : 'var(--text-muted)',
+                                    color: integrationFlow === 'standard' ? 'var(--primary-contrast)' : 'var(--text-muted)',
                                     padding: '8px 14px',
                                     borderRadius: '8px',
                                     cursor: 'pointer',
@@ -519,7 +519,7 @@ const AppDetails = () => {
 
                     {integrationFlow === 'pkce' ? (
                         <div className="fade-in">
-                            <div style={{ background: 'rgba(99, 102, 241, 0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
+                            <div style={{ background: 'var(--primary-soft)', padding: '1rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid var(--primary-border)' }}>
                                 <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--primary)', lineHeight: '1.5' }}>
                                     <strong>PKCE Recommended:</strong> Best for SPAs (React, Vue) or Mobile apps. It uses a one-time cryptographic handshake instead of a permanent secret.
                                 </p>
@@ -527,17 +527,17 @@ const AppDetails = () => {
 
                             <div style={{ marginBottom: '2rem' }}>
                                 <h4 style={{ marginBottom: '0.75rem' }}>1. Authorize (Frontend Redirect)</h4>
-                                <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
-                                    <code style={{ color: '#38bdf8', fontFamily: 'monospace', fontSize: '0.9rem' }}>
-                                        {`https://janusid.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK&codeChallenge=HASHED_VERIFIER&codeChallengeMethod=S256`}
+                                <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
+                                    <code style={{ color: 'var(--info)', fontFamily: 'monospace', fontSize: '0.9rem' }}>
+                                        {`https://sina-auth.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK&codeChallenge=HASHED_VERIFIER&codeChallengeMethod=S256`}
                                     </code>
                                 </div>
                             </div>
 
                             <div>
                                 <h4 style={{ marginBottom: '0.75rem' }}>2. Exchange Code for Token</h4>
-                                <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
-                                    <pre style={{ margin: 0, color: '#94a3b8', fontSize: '0.85rem', lineHeight: '1.6' }}>
+                                <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
+                                    <pre style={{ margin: 0, color: 'var(--code-text)', fontSize: '0.85rem', lineHeight: '1.6' }}>
                                         {`// No clientSecret required for PKCE
 const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
     code: 'AUTH_CODE_FROM_URL',
@@ -550,25 +550,25 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
                         </div>
                     ) : (
                         <div className="fade-in">
-                            <div style={{ background: 'rgba(16, 185, 129, 0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
-                                <p style={{ margin: 0, fontSize: '0.9rem', color: '#10b981', lineHeight: '1.5' }}>
+                            <div style={{ background: 'var(--success-soft)', padding: '1rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid var(--success-border)' }}>
+                                <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--success)', lineHeight: '1.5' }}>
                                     <strong>Standard Flow:</strong> Best for servers (Node, Python, Go) where you can securely hide your Client Secret in environment variables.
                                 </p>
                             </div>
 
                             <div style={{ marginBottom: '2rem' }}>
                                 <h4 style={{ marginBottom: '0.75rem' }}>1. Authorize (Redirect)</h4>
-                                <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
-                                    <code style={{ color: '#38bdf8', fontFamily: 'monospace', fontSize: '0.9rem' }}>
-                                        {`https://janusid.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK`}
+                                <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
+                                    <code style={{ color: 'var(--info)', fontFamily: 'monospace', fontSize: '0.9rem' }}>
+                                        {`https://sina-auth.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK`}
                                     </code>
                                 </div>
                             </div>
 
                             <div>
                                 <h4 style={{ marginBottom: '0.75rem' }}>2. Exchange (Server-Side)</h4>
-                                <div style={{ background: '#0f172a', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid #1e293b' }}>
-                                    <pre style={{ margin: 0, color: '#94a3b8', fontSize: '0.85rem', lineHeight: '1.6' }}>
+                                <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
+                                    <pre style={{ margin: 0, color: 'var(--code-text)', fontSize: '0.85rem', lineHeight: '1.6' }}>
                                         {`// Requires clientSecret (Keep this on your server!)
 const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
     code: 'AUTH_CODE_FROM_URL',
@@ -637,7 +637,7 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
 
                         <div style={{ display: 'flex', gap: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
                             <Button onClick={handleUpdateSettings}>Save Settings</Button>
-                            <Button onClick={handleDeleteApp} style={{ background: '#ef4444', border: 'none' }}>Delete Application</Button>
+                            <Button onClick={handleDeleteApp} style={{ background: 'var(--danger)', border: 'none' }}>Delete Application</Button>
                         </div>
                     </div>
                 </div>
@@ -648,32 +648,32 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
             {/* Secret Rotation */}
             <Modal isOpen={isRotateModalOpen} onClose={() => setIsRotateModalOpen(false)} title="Rotate Client Secret">
                 <div style={{ padding: '0.5rem 0' }}>
-                    <div style={{ background: 'rgba(239, 68, 68, 0.1)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid rgba(239, 68, 68, 0.2)', display: 'flex', gap: '12px' }}>
-                        <AlertTriangle style={{ color: '#ef4444', flexShrink: 0 }} size={24} />
-                        <p style={{ color: '#ef4444', margin: 0, fontSize: '0.9rem' }}>
+                    <div style={{ background: 'var(--danger-soft)', padding: '1rem', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid var(--danger-border)', display: 'flex', gap: '12px' }}>
+                        <AlertTriangle style={{ color: 'var(--danger)', flexShrink: 0 }} size={24} />
+                        <p style={{ color: 'var(--danger)', margin: 0, fontSize: '0.9rem' }}>
                             Rotating the secret will **immediately** invalidate the current one. All apps using the old secret will lose access until updated.
                         </p>
                     </div>
                     <p style={{ marginBottom: '2rem' }}>Are you sure you want to proceed with rotation for <strong>{app.name}</strong>?</p>
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         <Button onClick={() => setIsRotateModalOpen(false)} style={{ background: 'transparent', border: '1px solid var(--border)' }}>Cancel</Button>
-                        <Button onClick={handleRotateSecret} style={{ background: '#ef4444', border: 'none' }}>Rotate Now</Button>
+                        <Button onClick={handleRotateSecret} style={{ background: 'var(--danger)', border: 'none' }}>Rotate Now</Button>
                     </div>
                 </div>
             </Modal>
 
             <Modal isOpen={isRotationSuccessOpen} onClose={() => setIsRotationSuccessOpen(false)} title="New Client Secret">
                 <div style={{ padding: '0.5rem 0' }}>
-                    <div style={{ background: 'rgba(234, 179, 8, 0.1)', padding: '1rem', borderRadius: '8px', border: '1px solid #eab308', marginBottom: '1.5rem', display: 'flex', gap: '12px' }}>
-                        <AlertCircle style={{ color: '#eab308', flexShrink: 0 }} size={24} />
-                        <p style={{ color: '#eab308', margin: 0, fontSize: '0.9rem' }}>
+                    <div style={{ background: 'var(--warning-soft)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--warning-border)', marginBottom: '1.5rem', display: 'flex', gap: '12px' }}>
+                        <AlertCircle style={{ color: 'var(--warning)', flexShrink: 0 }} size={24} />
+                        <p style={{ color: 'var(--warning)', margin: 0, fontSize: '0.9rem' }}>
                             **Important:** This secret is only shown once. Copy it and store it securely. We do not store plain-text secrets.
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '8px', marginBottom: '2rem' }}>
                         <div style={{ flex: 1, background: 'var(--bg-input)', padding: '12px', borderRadius: '8px', fontFamily: 'monospace', color: 'var(--primary)', fontWeight: 'bold', wordBreak: 'break-all', fontSize: '1.1rem' }}>{rotatedSecret}</div>
                         <button onClick={() => copyToClipboard(rotatedSecret)} style={{ background: 'var(--bg-input)', border: 'none', padding: '12px', borderRadius: '8px', cursor: 'pointer' }}>
-                            {copied ? <Check size={20} color="#10b981" /> : <Copy size={20} />}
+                            {copied ? <Check size={20} color="var(--success)" /> : <Copy size={20} />}
                         </button>
                     </div>
                     <Button onClick={() => setIsRotationSuccessOpen(false)}>I have saved my secret</Button>
@@ -741,7 +741,7 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
             <Modal isOpen={isAddUserModalOpen} onClose={() => setIsAddUserModalOpen(false)} title="Add Existing User by Email">
                 <form onSubmit={handleAddUserByEmail}>
                     <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1.25rem', lineHeight: '1.5' }}>
-                        Enter the email address of a registered global Janus ID user to link them to this application with its default roles.
+                        Enter the email address of a registered global SINA Auth user to link them to this application with its default roles.
                     </p>
                     <Input
                         label="User Email Address"

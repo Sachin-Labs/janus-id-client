@@ -16,8 +16,8 @@ const Button = ({ children, onClick, type = "button", variant = "primary", disab
     const styles = {
         primary: {
             ...baseStyle,
-            backgroundColor: 'var(--primary)',
-            color: '#fff',
+            backgroundColor: 'var(--primary-btn-bg)',
+            color: 'var(--primary-contrast)',
         },
         secondary: {
             ...baseStyle,
