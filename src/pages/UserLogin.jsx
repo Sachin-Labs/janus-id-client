@@ -4,6 +4,7 @@ import api from '../services/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import { getOAuthState } from '../services/oauthHelper';
+import { useAuth } from '../context/AuthContext';
 
 const UserLogin = () => {
     const [searchParams] = useSearchParams();
@@ -17,6 +18,8 @@ const UserLogin = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const { setUser } = useAuth();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -32,6 +35,7 @@ const UserLogin = () => {
 
             if (data.accessToken) {
                 localStorage.setItem("accessToken", data.accessToken);
+                setUser({ email });
             }
 
             if (clientId && redirectUri) {
@@ -58,7 +62,7 @@ const UserLogin = () => {
                 <p style={{ color: 'var(--text-muted)' }}>Resume your session</p>
             </div>
 
-            {error && <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '10px', borderRadius: '4px', marginBottom: '1rem', fontSize: '0.9rem', textAlign: 'center' }}>{error}</div>}
+            {error && <div style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '10px', borderRadius: '4px', marginBottom: '1rem', fontSize: '0.9rem', textAlign: 'center' }}>{error}</div>}
 
             <form onSubmit={handleLogin}>
                 <Input

@@ -44,8 +44,8 @@ const ForgotPassword = () => {
                 Enter your email to receive a password reset OTP.
             </p>
 
-            {message && <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', padding: '10px', borderRadius: 'var(--radius)', marginBottom: '1rem' }}>{message}</div>}
-            {error && <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '10px', borderRadius: 'var(--radius)', marginBottom: '1rem' }}>{error}</div>}
+            {message && <div style={{ background: 'var(--success-soft)', color: 'var(--success)', padding: '10px', borderRadius: 'var(--radius)', marginBottom: '1rem' }}>{message}</div>}
+            {error && <div style={{ background: 'var(--danger-soft)', color: 'var(--danger)', padding: '10px', borderRadius: 'var(--radius)', marginBottom: '1rem' }}>{error}</div>}
 
             <form onSubmit={handleSubmit}>
                 <Input

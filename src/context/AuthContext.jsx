@@ -14,10 +14,24 @@ export const AuthProvider = ({ children }) => {
     const checkUser = async () => {
         try {
             const token = localStorage.getItem("accessToken");
-            // Ideally call /introspect or /me here if backend supports it to get user details
-            // For now, if token exists, we assume logged in (introspection would be safer)
             if (token) {
-                setUser({ role: "admin" }); // Placeholder user object
+                try {
+                    const { data } = await api.get("/admin/me");
+                    const u = data.user;
+                    const name = [u.firstName, u.lastName].filter(Boolean).join(" ").trim() || u.email;
+                    const user = { name, email: u.email };
+                    localStorage.setItem("user", JSON.stringify(user));
+                    setUser(user);
+                    return;
+                } catch (e) {
+                    console.error("Failed to fetch profile", e);
+                }
+                const storedUser = JSON.parse(localStorage.getItem("user") || "null");
+                if (storedUser && !storedUser.name && storedUser.email) {
+                    storedUser.name = storedUser.email;
+                    localStorage.setItem("user", JSON.stringify(storedUser));
+                }
+                setUser(storedUser || { role: "admin" });
             }
         } catch (e) {
             console.error(e);
@@ -29,7 +43,10 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         const { data } = await api.post("/auth/admin-login", { email, password });
         localStorage.setItem("accessToken", data.accessToken);
-        setUser({ email }); // Set user state
+        const name = [data.user?.firstName, data.user?.lastName].filter(Boolean).join(" ").trim();
+        const user = { name: name || email, email };
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
         return data;
     };
 
@@ -40,14 +57,16 @@ export const AuthProvider = ({ children }) => {
             console.error("Logout failed on server", e);
         }
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
         setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
+        <AuthContext.Provider value={{ user, login, logout, loading, setUser }}>
             {!loading && children}
         </AuthContext.Provider>
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);

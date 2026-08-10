@@ -1,30 +1,110 @@
 :root {
-  /* Colors */
-  --bg-dark: #0f1115; /* Deep rich dark */
-  --bg-card: #161b22; /* Slightly lighter for cards */
-  --bg-input: #0d1117;
-  
-  --primary: #6366f1; /* Indigo */
-  --primary-hover: #4f46e5;
-  
-  --text-main: #f0f6fc;
-  --text-muted: #8b949e;
-  
-  --border: #30363d;
-  --border-focus: #58a6ff;
+  /* Brand */
+  --primary: #39A7FF;
+  --primary-hover: #63B7FF;
+  --primary-soft: rgba(57, 167, 255, 0.12);
+  --primary-border: rgba(57, 167, 255, 0.25);
+  --primary-btn-bg: #39A7FF;
+  --primary-contrast: #EAF6FF;
+
+  /* Surfaces (dark mode) */
+  --bg-dark: #090B0A;
+  --bg-card: #0E100F;
+  --bg-input: #0C0E0D;
+  --bg-hover: #121513;
+  --bg-overlay: rgba(0, 0, 0, 0.6);
+
+  /* Lines */
+  --border: #1E2421;
+  --border-focus: #39A7FF;
+
+  /* Text */
+  --text-main: #EAF6FF;
+  --text-muted: #94A8B2;
+  --text-faint: #5C6B63;
+
+  /* Semantic */
+  --success: #34D399;
+  --success-soft: rgba(52, 211, 153, 0.12);
+  --success-border: rgba(52, 211, 153, 0.25);
+  --danger: #F87171;
+  --danger-soft: rgba(248, 113, 113, 0.12);
+  --danger-border: rgba(248, 113, 113, 0.25);
+  --warning: #FBBF24;
+  --warning-soft: rgba(251, 191, 36, 0.12);
+  --warning-border: rgba(251, 191, 36, 0.25);
+  --info: #38BDF8;
+
+  /* Code */
+  --code-bg: #0E1113;
+  --code-text: #C9D4CE;
+
+  /* Theme-specific */
+  --nav-bg: rgba(9, 11, 10, 0.85);
+  --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+
+  /* Typography */
+  --font-sans: 'Figtree', system-ui, -apple-system, sans-serif;
 
   /* Spacing */
   --radius: 8px;
   --radius-lg: 16px;
-  
+
   /* Transitions */
   --transition: all 0.2s ease-in-out;
+}
+
+[data-theme="light"] {
+  /* Brand */
+  --primary: #0E7AE6;
+  --primary-hover: #0B66C4;
+  --primary-soft: rgba(14, 122, 230, 0.1);
+  --primary-border: rgba(14, 122, 230, 0.25);
+  --primary-btn-bg: #D6EBFF;
+  --primary-contrast: #0B2E4E;
+
+  /* Surfaces (light mode) */
+  --bg-dark: #F5F7F9;
+  --bg-card: #FFFFFF;
+  --bg-input: #EEF1F4;
+  --bg-hover: #E9EDF1;
+  --bg-overlay: rgba(9, 11, 10, 0.5);
+
+  /* Lines */
+  --border: #E0E5EA;
+  --border-focus: #0E7AE6;
+
+  /* Text */
+  --text-main: #0C1622;
+  --text-muted: #5A6B78;
+  --text-faint: #96A6B2;
+
+  /* Semantic */
+  --success: #0F9D6E;
+  --success-soft: rgba(15, 157, 110, 0.1);
+  --success-border: rgba(15, 157, 110, 0.25);
+  --danger: #DC2626;
+  --danger-soft: rgba(220, 38, 38, 0.08);
+  --danger-border: rgba(220, 38, 38, 0.25);
+  --warning: #B45309;
+  --warning-soft: rgba(180, 83, 9, 0.1);
+  --warning-border: rgba(180, 83, 9, 0.25);
+  --info: #0EA5E9;
+
+  /* Code */
+  --code-bg: #F1F4F7;
+  --code-text: #334155;
+
+  /* Theme-specific */
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --card-shadow: 0 4px 30px rgba(15, 23, 42, 0.08);
 }
 
 body {
   background-color: var(--bg-dark);
   color: var(--text-main);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-sans);
   margin: 0;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
