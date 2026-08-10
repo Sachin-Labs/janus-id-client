@@ -532,7 +532,7 @@ const AppDetails = () => {
                                 <h4 style={{ marginBottom: '0.75rem' }}>1. Authorize (Frontend Redirect)</h4>
                                 <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
                                     <code style={{ color: 'var(--info)', fontFamily: 'monospace', fontSize: '0.9rem' }}>
-                                        {`https://sina-auth.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK&codeChallenge=HASHED_VERIFIER&codeChallengeMethod=S256`}
+                                        {`https://sinaauth.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK&codeChallenge=HASHED_VERIFIER&codeChallengeMethod=S256`}
                                     </code>
                                 </div>
                             </div>
@@ -563,7 +563,7 @@ const res = await axios.post('${import.meta.env.VITE_API_URL}/api/auth/token', {
                                 <h4 style={{ marginBottom: '0.75rem' }}>1. Authorize (Redirect)</h4>
                                 <div style={{ background: 'var(--code-bg)', padding: '1.25rem', borderRadius: '8px', overflowX: 'auto', border: '1px solid var(--border)' }}>
                                     <code style={{ color: 'var(--info)', fontFamily: 'monospace', fontSize: '0.9rem' }}>
-                                        {`https://sina-auth.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK`}
+                                        {`https://sinaauth.vercel.app/authorize?clientId=${app.clientId}&redirectUri=YOUR_CALLBACK`}
                                     </code>
                                 </div>
                             </div>
