@@ -25,8 +25,8 @@ const Dashboard = () => {
         try {
             const { data } = await api.get('/admin/applications');
             setApps(data.applications);
-        } catch (e) {
-            console.error("Failed to fetch apps", e);
+        } catch {
+            console.error("Failed to fetch apps");
         } finally {
             setLoading(false);
         }
@@ -44,7 +44,7 @@ const Dashboard = () => {
             setIsSuccessModalOpen(true);
             setNewApp({ name: '', description: '' });
             fetchApps();
-        } catch (error) {
+        } catch {
             alert("Failed to create app");
         }
     };
@@ -75,7 +75,7 @@ const Dashboard = () => {
             {loading ? (
                 <div style={{ color: 'var(--text-muted)' }}>Loading...</div>
             ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))', gap: '1.5rem' }}>
                     {apps.map(app => (
                         <div
                             key={app._id}
@@ -94,7 +94,7 @@ const Dashboard = () => {
                                     }}>
                                         {(app.name || 'A')[0].toUpperCase()}
                                     </div>
-                                    <h3 style={{ fontSize: '1.1rem' }}>{app.name}</h3>
+                                    <h3 className="truncate" style={{ fontSize: '1.1rem', minWidth: 0 }}>{app.name}</h3>
                                 </div>
                                 <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '0' }}>
                                     {app.description}

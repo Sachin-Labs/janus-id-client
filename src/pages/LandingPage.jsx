@@ -64,21 +64,21 @@ const LandingPage = () => {
     return (
         <div style={{ minHeight: '100vh', background: 'var(--bg-dark)', color: 'var(--text-main)', display: 'flex', flexDirection: 'column' }}>
             {/* Navbar */}
-            <nav style={{
-                padding: '1.25rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            <nav className="navbar" style={{
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 borderBottom: '1px solid var(--border)', position: 'sticky', top: 0,
                 background: 'var(--nav-bg)', backdropFilter: 'blur(10px)', zIndex: 10
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <img src="/sina-auth.svg" alt="SINA Auth Logo" style={{ width: '36px', height: '36px', borderRadius: '8px' }} />
-                    <div style={{ fontSize: '1.35rem', fontWeight: '700', letterSpacing: '-0.02em' }}>
+                    <img src="/sina-auth.svg" alt="SINA Auth Logo" style={{ width: '36px', height: '36px', borderRadius: '8px', flexShrink: 0 }} />
+                    <div className="navbar-brand" style={{ fontWeight: '700', letterSpacing: '-0.02em' }}>
                         SINA <span style={{ color: 'var(--primary)' }}>Auth</span>
                     </div>
                 </div>
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                     <ThemeToggle />
-                    <Link to="/login" style={{
-                        padding: '0.5rem 1.25rem', borderRadius: '8px', fontSize: '0.9rem', fontWeight: '600',
+                    <Link to="/login" className="navbar-cta" style={{
+                        borderRadius: '8px', fontWeight: '600',
                         background: 'var(--primary-btn-bg)', color: 'var(--primary-contrast)', textDecoration: 'none',
                         border: '1px solid var(--primary-border)'
                     }}>
@@ -88,9 +88,9 @@ const LandingPage = () => {
             </nav>
 
             {/* Hero Section */}
-            <main style={{
+            <main className="hero-pad" style={{
                 flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                textAlign: 'center', padding: '5rem 2rem 4rem', position: 'relative', overflow: 'hidden'
+                textAlign: 'center', position: 'relative', overflow: 'hidden'
             }}>
                 <div style={{
                     position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)',
@@ -104,7 +104,7 @@ const LandingPage = () => {
                 }}>
                     OAuth 2.0 Identity &amp; Access Management
                 </span>
-                <h1 style={{ fontSize: '3.5rem', fontWeight: '800', marginBottom: '1.5rem', lineHeight: '1.15', letterSpacing: '-0.03em', maxWidth: '800px' }}>
+                <h1 style={{ fontSize: 'clamp(2.1rem, 6.5vw, 3.5rem)', fontWeight: '800', marginBottom: '1.5rem', lineHeight: '1.15', letterSpacing: '-0.03em', maxWidth: '800px' }}>
                     One identity for{' '}
                     <span style={{ color: 'var(--primary)' }}>all your applications</span>
                 </h1>
@@ -131,12 +131,12 @@ const LandingPage = () => {
             </main>
 
             {/* What is SINA Auth */}
-            <section style={{ padding: '4.5rem 2rem', background: 'var(--bg-card)' }}>
+            <section style={{ padding: 'clamp(3rem, 8vw, 4.5rem) 2rem', background: 'var(--bg-card)' }}>
                 <div style={{ maxWidth: '900px', margin: '0 auto' }}>
                     <p style={{ color: 'var(--primary)', fontWeight: '700', letterSpacing: '0.08em', textTransform: 'uppercase', fontSize: '0.8rem', marginBottom: '1rem' }}>
                         What is SINA Auth?
                     </p>
-                    <h2 style={{ fontSize: '2.5rem', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '1.5rem', lineHeight: '1.2' }}>
+                    <h2 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '1.5rem', lineHeight: '1.2' }}>
                         A complete identity engine behind every login
                     </h2>
                     <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '1rem' }}>
@@ -153,10 +153,10 @@ const LandingPage = () => {
             </section>
 
             {/* Features Grid */}
-            <section style={{ padding: '4.5rem 2rem' }}>
+            <section style={{ padding: 'clamp(3rem, 8vw, 4.5rem) 2rem' }}>
                 <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
                     <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                        <h2 style={{ fontSize: '2.25rem', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '0.75rem' }}>
+                        <h2 style={{ fontSize: 'clamp(1.7rem, 5vw, 2.25rem)', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '0.75rem' }}>
                             Everything you need to ship secure auth
                         </h2>
                         <p style={{ color: 'var(--text-muted)', maxWidth: '560px', margin: '0 auto', fontSize: '1.05rem' }}>
@@ -164,7 +164,7 @@ const LandingPage = () => {
                         </p>
                     </div>
                     <div style={{
-                        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem'
+                        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))', gap: '1.5rem'
                     }}>
                         {features.map(feature => {
                             const Icon = feature.icon;
@@ -191,10 +191,10 @@ const LandingPage = () => {
             </section>
 
             {/* How it works */}
-            <section style={{ padding: '4.5rem 2rem', background: 'var(--bg-card)' }}>
+            <section style={{ padding: 'clamp(3rem, 8vw, 4.5rem) 2rem', background: 'var(--bg-card)' }}>
                 <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
                     <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                        <h2 style={{ fontSize: '2.25rem', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '0.75rem' }}>
+                        <h2 style={{ fontSize: 'clamp(1.7rem, 5vw, 2.25rem)', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '0.75rem' }}>
                             How integration works
                         </h2>
                         <p style={{ color: 'var(--text-muted)', maxWidth: '520px', margin: '0 auto', fontSize: '1.05rem' }}>
@@ -202,7 +202,7 @@ const LandingPage = () => {
                         </p>
                     </div>
                     <div style={{
-                        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem'
+                        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: '1.5rem'
                     }}>
                         {steps.map(({ num, title, desc }) => (
                             <div key={num} style={{
@@ -224,8 +224,8 @@ const LandingPage = () => {
             </section>
 
             {/* CTA */}
-            <section style={{ padding: '4.5rem 2rem', textAlign: 'center' }}>
-                <h2 style={{ fontSize: '2.25rem', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '1rem' }}>
+            <section style={{ padding: 'clamp(3rem, 8vw, 4.5rem) 2rem', textAlign: 'center' }}>
+                <h2 style={{ fontSize: 'clamp(1.7rem, 5vw, 2.25rem)', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '1rem' }}>
                     Ready to centralize your logins?
                 </h2>
                 <p style={{ color: 'var(--text-muted)', maxWidth: '480px', margin: '0 auto 2rem', fontSize: '1.05rem' }}>

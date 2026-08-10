@@ -48,6 +48,7 @@ const AppDetails = () => {
 
     useEffect(() => {
         fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [appId]);
 
     useEffect(() => {
@@ -56,12 +57,14 @@ const AppDetails = () => {
         } else {
             setRolePermissions([]);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedMappingRole]);
 
     useEffect(() => {
         if (activeTab === 'users') {
             fetchUsers();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeTab]);
 
     const fetchData = async () => {
@@ -104,7 +107,7 @@ const AppDetails = () => {
             const res = await api.get(`/admin/roles/${roleId}/permissions?applicationId=${appId}`);
             const mappedIds = res.data.permissions.map(rp => rp.permission._id);
             setRolePermissions(mappedIds);
-        } catch (e) {
+        } catch {
             setRolePermissions([]);
         }
     }
@@ -118,7 +121,7 @@ const AppDetails = () => {
             } else {
                 setSelectedUserRoles([]);
             }
-        } catch (e) {
+        } catch {
             setSelectedUserRoles([]);
         }
     }
@@ -133,7 +136,7 @@ const AppDetails = () => {
             });
             alert("Settings Updated Successfully");
             fetchData();
-        } catch (err) {
+        } catch {
             alert("Failed to update settings");
         }
     };
@@ -144,7 +147,7 @@ const AppDetails = () => {
             setRotatedSecret(data.plainSecret);
             setIsRotateModalOpen(false);
             setIsRotationSuccessOpen(true);
-        } catch (e) {
+        } catch {
             alert("Failed to rotate secret");
         }
     }
@@ -166,7 +169,7 @@ const AppDetails = () => {
             setIsUserRoleModalOpen(false);
             alert("User Roles Updated");
             fetchUsers();
-        } catch (e) {
+        } catch {
             alert("Failed to update user roles");
         }
     }
@@ -198,7 +201,7 @@ const AppDetails = () => {
             setIsRoleModalOpen(false);
             setNewRole({ name: '', description: '' });
             fetchData();
-        } catch (e) { alert("Error"); }
+        } catch { alert("Error"); }
     }
 
     const handleCreatePerm = async (e) => {
@@ -208,7 +211,7 @@ const AppDetails = () => {
             setIsPermModalOpen(false);
             setNewPerm({ name: '', description: '' });
             fetchData();
-        } catch (e) { alert("Error"); }
+        } catch { alert("Error"); }
     }
 
     const handleUpdateRole = async (e) => {
@@ -217,7 +220,7 @@ const AppDetails = () => {
             await api.put(`/admin/roles/${editRole._id}`, { ...editRole });
             setIsEditRoleModalOpen(false);
             fetchData();
-        } catch (e) { alert("Error"); }
+        } catch { alert("Error"); }
     }
 
     const handleUpdatePerm = async (e) => {
@@ -226,22 +229,22 @@ const AppDetails = () => {
             await api.put(`/admin/permissions/${editPerm._id}`, { ...editPerm });
             setIsEditPermModalOpen(false);
             fetchData();
-        } catch (e) { alert("Error"); }
+        } catch { alert("Error"); }
     }
 
     const handleDeleteRole = async (id) => {
         if (!window.confirm("Are you sure you want to delete this role?")) return;
-        try { await api.delete(`/admin/roles/${id}`); fetchData(); } catch (e) { alert("Delete failed"); }
+        try { await api.delete(`/admin/roles/${id}`); fetchData(); } catch { alert("Delete failed"); }
     }
 
     const handleDeletePerm = async (id) => {
         if (!window.confirm("Are you sure you want to delete this permission?")) return;
-        try { await api.delete(`/admin/permissions/${id}`); fetchData(); } catch (e) { alert("Delete failed"); }
+        try { await api.delete(`/admin/permissions/${id}`); fetchData(); } catch { alert("Delete failed"); }
     }
 
     const handleDeleteApp = async () => {
         if (!window.confirm("DANGER: Are you sure you want to delete this application?")) return;
-        try { await api.delete(`/admin/applications/${appId}`); navigate('/admin'); } catch (e) { alert("Delete failed"); }
+        try { await api.delete(`/admin/applications/${appId}`); navigate('/admin'); } catch { alert("Delete failed"); }
     }
 
     const handleUpdateApp = async (e) => {
@@ -251,7 +254,7 @@ const AppDetails = () => {
             setApp({ ...app, ...editApp });
             setIsEditAppModalOpen(false);
             alert("Application updated");
-        } catch (e) { alert("Update failed"); }
+        } catch { alert("Update failed"); }
     }
 
     const togglePermission = async (roleId, permissionId, isChecked) => {
@@ -263,7 +266,7 @@ const AppDetails = () => {
                 await api.delete(`/admin/roles/${roleId}/permissions`, { data: { permissionsId: permissionId, applicationId: appId } });
                 setRolePermissions(prev => prev.filter(id => id !== permissionId));
             }
-        } catch (e) { alert("Failed to update mapping"); }
+        } catch { alert("Failed to update mapping"); }
     }
 
     const copyToClipboard = (text) => {
@@ -279,9 +282,9 @@ const AppDetails = () => {
         <div className="fade-in">
             <div style={{ marginBottom: '2rem', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <h1 style={{ marginRight: '1rem' }}>{app.name}</h1>
-                        <span style={{ background: 'var(--bg-card)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem', border: '1px solid var(--border)' }}>ID: {app.clientId}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', minWidth: 0 }}>
+                        <h1 className="truncate" style={{ marginRight: '1rem' }}>{app.name}</h1>
+                        <span className="break-all" style={{ background: 'var(--bg-card)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.8rem', border: '1px solid var(--border)' }}>ID: {app.clientId}</span>
                     </div>
                 </div>
                 <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem' }}>{app.description}</p>
@@ -311,7 +314,7 @@ const AppDetails = () => {
 
             {activeTab === 'info' && (
                 <div className="glass-card" style={{ padding: '24px', position: 'relative' }}>
-                    <div style={{ position: 'absolute', top: '24px', right: '24px' }}>
+                    <div className="cred-edit" style={{ position: 'absolute', top: '24px', right: '24px' }}>
                         <Button onClick={() => { setEditApp({ name: app.name, description: app.description }); setIsEditAppModalOpen(true); }}>
                             <div className="flex-center"><Edit size={16} style={{ marginRight: '8px' }} /> Edit Details</div>
                         </Button>
@@ -319,16 +322,16 @@ const AppDetails = () => {
                     <h3 style={{ marginBottom: '1.5rem' }}>Credentials</h3>
                     <div style={{ marginBottom: '1.5rem' }}>
                         <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Client ID</label>
-                        <div style={{ display: 'flex', alignItems: 'center', background: 'var(--bg-input)', padding: '12px', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
-                            <code style={{ flex: 1, fontFamily: 'monospace', fontSize: '1rem' }}>{app.clientId}</code>
-                            <button onClick={() => copyToClipboard(app.clientId)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px' }}><Copy size={18} /></button>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--bg-input)', padding: '12px', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
+                            <code className="break-all" style={{ flex: 1, minWidth: 0, fontFamily: 'monospace', fontSize: '1rem' }}>{app.clientId}</code>
+                            <button onClick={() => copyToClipboard(app.clientId)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '4px', flexShrink: 0 }}><Copy size={18} /></button>
                         </div>
                     </div>
                     <div>
                         <label style={{ display: 'block', marginBottom: '8px', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Client Secret</label>
-                        <div style={{ display: 'flex', alignItems: 'center', background: 'var(--bg-input)', padding: '12px', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
-                            <code style={{ flex: 1, letterSpacing: '4px', opacity: 0.5, fontSize: '1.2rem' }}>••••••••••••••••••••••••••••••••</code>
-                            <button onClick={() => setIsRotateModalOpen(true)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', padding: '4px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--bg-input)', padding: '12px', borderRadius: 'var(--radius)', border: '1px solid var(--border)' }}>
+                            <code style={{ flex: 1, minWidth: 0, letterSpacing: '4px', opacity: 0.5, fontSize: '1.2rem', overflow: 'hidden' }}>••••••••••••••••••••••••••••••••</code>
+                            <button onClick={() => setIsRotateModalOpen(true)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', padding: '4px', flexShrink: 0 }}>
                                 <RefreshCw size={18} /> Rotate
                             </button>
                         </div>
@@ -341,7 +344,7 @@ const AppDetails = () => {
 
             {activeTab === 'users' && (
                 <div className="fade-in">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <div className="stack-sm" style={{ marginBottom: '1.5rem' }}>
                         <h3 style={{ margin: 0 }}>Registered Users</h3>
                         <Button onClick={() => setIsAddUserModalOpen(true)} style={{ width: 'auto', padding: '8px 16px' }}>
                             <div className="flex-center">
@@ -351,8 +354,8 @@ const AppDetails = () => {
                     </div>
                     <div style={{ display: 'grid', gap: '1rem' }}>
                         {users.map(u => (
-                            <div key={u._id} className="glass-card" style={{ padding: '1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <div>
+                            <div key={u._id} className="glass-card stack-sm" style={{ padding: '1.25rem' }}>
+                                <div style={{ minWidth: 0 }}>
                                     <h4 style={{ margin: 0 }}>{u.user.firstName} {u.user.lastName}</h4>
                                     <p style={{ color: 'var(--text-muted)', margin: '4px 0', fontSize: '0.9rem' }}>{u.user.email}</p>
                                     <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
@@ -371,11 +374,11 @@ const AppDetails = () => {
 
             {activeTab === 'roles' && (
                 <div className="fade-in">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <div className="stack-sm" style={{ marginBottom: '1.5rem' }}>
                         <h3>Roles</h3>
-                        <Button onClick={() => setIsRoleModalOpen(true)} style={{ width: '160px' }}><div className="flex-center"><Plus size={18} style={{ marginRight: '8px' }} /> Add Role</div></Button>
+                        <Button onClick={() => setIsRoleModalOpen(true)} style={{ width: 'auto' }}><div className="flex-center"><Plus size={18} style={{ marginRight: '8px' }} /> Add Role</div></Button>
                     </div>
-                    <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+                    <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))' }}>
                         {roles.map(r => (
                             <div key={r._id} className="glass-card" style={{ padding: '1.25rem', position: 'relative' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
@@ -395,11 +398,11 @@ const AppDetails = () => {
 
             {activeTab === 'permissions' && (
                 <div className="fade-in">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <div className="stack-sm" style={{ marginBottom: '1.5rem' }}>
                         <h3>Permissions</h3>
-                        <Button onClick={() => setIsPermModalOpen(true)} style={{ width: '180px' }}><div className="flex-center"><Plus size={18} style={{ marginRight: '8px' }} /> Add Permission</div></Button>
+                        <Button onClick={() => setIsPermModalOpen(true)} style={{ width: 'auto' }}><div className="flex-center"><Plus size={18} style={{ marginRight: '8px' }} /> Add Permission</div></Button>
                     </div>
-                    <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+                    <div style={{ display: 'grid', gap: '1.5rem', gridTemplateColumns: 'repeat(auto-fill, minmax(min(280px, 100%), 1fr))' }}>
                         {permissions.map(p => (
                             <div key={p._id} className="glass-card" style={{ padding: '1.25rem', position: 'relative' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.75rem' }}>
@@ -420,7 +423,7 @@ const AppDetails = () => {
             {activeTab === 'mapping' && (
                 <div className="glass-card fade-in" style={{ padding: '24px' }}>
                     <h3 style={{ marginBottom: '1.5rem' }}>Role-Permission Mapping</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '2rem' }}>
+                    <div className="mapping-grid" style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '2rem' }}>
                         <div style={{ borderRight: '1px solid var(--border)', paddingRight: '1.5rem' }}>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1rem' }}>Select a role to manage its permissions:</p>
                             {roles.map(r => (
@@ -472,12 +475,12 @@ const AppDetails = () => {
 
             {activeTab === 'integration' && (
                 <div className="glass-card fade-in" style={{ padding: '24px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <div className="stack-sm" style={{ marginBottom: '1.5rem' }}>
                         <div>
                             <h3 style={{ marginBottom: '0.5rem' }}>Integration Guide</h3>
                             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Follow the Authorization Code Flow to securely authenticate users.</p>
                         </div>
-                        <div style={{ display: 'flex', gap: '6px', background: 'var(--bg-input)', padding: '6px', borderRadius: '10px', border: '1px solid var(--border)' }}>
+                        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', background: 'var(--bg-input)', padding: '6px', borderRadius: '10px', border: '1px solid var(--border)' }}>
                             <button
                                 onClick={() => setIntegrationFlow('pkce')}
                                 style={{

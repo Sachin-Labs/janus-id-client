@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 
 const Modal = ({ isOpen, onClose, title, children }) => {
-    if (!isOpen) return null;
-
     // Close on Escape key
     useEffect(() => {
         const handleEsc = (e) => {
@@ -12,6 +10,8 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         window.addEventListener('keydown', handleEsc);
         return () => window.removeEventListener('keydown', handleEsc);
     }, [onClose]);
+
+    if (!isOpen) return null;
 
     return (
         <div style={{
@@ -27,16 +27,16 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         }} onClick={onClose}>
             <div
                 className="glass-card"
-                style={{ width: '100%', maxWidth: '500px', margin: '1rem', background: 'var(--bg-card)', border: '1px solid var(--border)' }}
+                style={{ width: '100%', maxWidth: '500px', margin: '1rem', background: 'var(--bg-card)', border: '1px solid var(--border)', maxHeight: 'calc(100vh - 2rem)', display: 'flex', flexDirection: 'column' }}
                 onClick={(e) => e.stopPropagation()} // Prevent close when clicking content
             >
-                <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
                     <h3 style={{ margin: 0 }}>{title}</h3>
                     <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
                         <X size={20} />
                     </button>
                 </div>
-                <div style={{ padding: '1.5rem' }}>
+                <div style={{ padding: '1.5rem', overflowY: 'auto', minWidth: 0 }}>
                     {children}
                 </div>
             </div>

@@ -15,11 +15,6 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.type === 'email' ? 'email' : e.target.type === 'password' ? 'password' : e.target.placeholder.includes('First') ? 'firstName' : 'lastName']: e.target.value });
-        // Simplify logic for demo, better to use name attribute
-    };
-
     const handleInputChange = (field) => (e) => {
         setFormData({ ...formData, [field]: e.target.value });
     }
